@@ -13,6 +13,18 @@
         android:theme="@style/Theme.AppMoviles"
         tools:targetApi="31">
         <activity
+            android:name=".ui.MenuColeccionistaActivity"
+            android:exported="false"
+            android:label="@string/title_menu_coleccionista"
+            android:theme="@style/Theme.AppMoviles"
+            android:parentActivityName=".ui.MainActivity"/>
+        <activity
+            android:name=".ui.MenuUsuarioActivity"
+            android:exported="false"
+            android:label="@string/title_menu_usuario"
+            android:theme="@style/Theme.AppMoviles"
+            android:parentActivityName=".ui.MainActivity"/>
+        <activity
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
@@ -21,6 +33,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
