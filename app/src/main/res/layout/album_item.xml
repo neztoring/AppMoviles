@@ -28,8 +28,13 @@
 
                 <ImageView
                     android:id="@+id/imageViewAlbum"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp" />
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="41dp"
+                    android:layout_marginTop="208dp"
+                    android:src="@drawable/cantante"
+                    android:fontFamily="cursive"/>
 
                 <TextView
                     android:id="@+id/textView6"

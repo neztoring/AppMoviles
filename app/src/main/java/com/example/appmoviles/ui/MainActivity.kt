@@ -2,18 +2,15 @@ package com.example.appmoviles.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.appmoviles.R
 
-
 class MainActivity : AppCompatActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.example.appmoviles.R.layout.activity_main)
+        setContentView(R.layout.activity_main)
 
         val buttonUsuarioClick = findViewById<Button>(R.id.button_usuario)
         buttonUsuarioClick.setOnClickListener {

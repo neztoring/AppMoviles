@@ -1,4 +1,4 @@
-package com.example.appmoviles.ui
+package com.example.appmoviles.ui.album
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -45,6 +45,7 @@ class AlbumFragment : Fragment() {
         val activity = requireNotNull(this.activity){
             "You can only access the viewModel after onActivityCreated()"
         }
+        activity.actionBar?.title = getString(R.string.title_album_list)
         viewModel = ViewModelProvider(this, AlbumViewModel.Factory(activity.application)).get(AlbumViewModel::class.java)
         viewModel.albums.observe(viewLifecycleOwner, Observer<List<Album>> { albumList ->
             albumList.apply {

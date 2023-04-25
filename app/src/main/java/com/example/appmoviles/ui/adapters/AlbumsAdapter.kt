@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.appmoviles.R
 import com.example.appmoviles.databinding.AlbumItemBinding
 import com.example.appmoviles.models.Album
@@ -37,6 +38,9 @@ class AlbumsAdapter : RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder>() {
     override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
         holder.viewDatabinding.also {
             it.album = albums[position]
+            Glide.with(holder.itemView)
+                .load(albums[position].cover)
+                .into(holder.viewDatabinding.imageViewAlbum)
         }
     }
 

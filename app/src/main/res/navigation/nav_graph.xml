@@ -6,7 +6,7 @@
     app:startDestination="@id/albumFragment">
     <fragment
         android:id="@+id/albumFragment"
-        android:name="com.example.appmoviles.ui.AlbumFragment"
+        android:name="com.example.appmoviles.ui.album.AlbumFragment"
         android:label="Lista de Albumes"
         tools:layout="@layout/fragment_album" >
     </fragment>
