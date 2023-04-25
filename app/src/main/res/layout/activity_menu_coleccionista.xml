@@ -25,7 +25,8 @@
             android:layout_marginEnd="23dp"
             android:text="@string/title_menu_coleccionista"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:fontFamily="cursive"/>
 
     </RelativeLayout>
 </RelativeLayout>
