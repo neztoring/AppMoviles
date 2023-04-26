@@ -11,4 +11,13 @@
     <string name="artistas">Artistas</string>
     <string name="artistasCapital">ARTISTAS</string>
     <string name="atras">Back</string>
+    <string name="open">Abrir</string>
+    <string name="close">Cerrar</string>
+    <string name="fav_performers">Artistas favoritos</string>
+    <string name="albums_handler">Administrar álbumes</string>
+    <string name="create_album">Crear álbum</string>
+    <string name="associate_track">Asociar track a un álbum</string>
+    <string name="profile_change">Cambiar perfil</string>
+    <!-- Strings used for fragments for navigation -->
+
 </resources>
