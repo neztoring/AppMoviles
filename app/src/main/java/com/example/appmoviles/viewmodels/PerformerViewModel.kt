@@ -35,7 +35,7 @@ class PerformerViewModel(application: Application) :  AndroidViewModel(applicati
     }
 
     private fun refreshDataFromNetwork() {
-       performesRepository.refreshData({
+        NetworkServiceAdapter.getInstance(getApplication()).getPerformers({
             _performers.postValue(it)
             _eventNetworkError.value = false
             _isNetworkErrorShown.value = false

@@ -17,7 +17,7 @@ class MenuUsuarioActivity : AppCompatActivity() {
         setContentView(R.layout.activity_menu_usuario)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        val textViewAlbum: TextView = findViewById(R.id.album_menu)
+        val textViewAlbum: TextView = findViewById(R.id.textView_album)
         textViewAlbum.setOnClickListener {
             val intent = Intent (this, AlbumActivity::class.java)
             startActivity(intent)
@@ -29,7 +29,7 @@ class MenuUsuarioActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val textViewArtists: TextView = findViewById(R.id.textView5)
+        val textViewArtists: TextView = findViewById(R.id.textView_cantante)
         textViewArtists.setOnClickListener {
             val intent = Intent (this, PerformerActivity::class.java)
             startActivity(intent)
@@ -37,7 +37,7 @@ class MenuUsuarioActivity : AppCompatActivity() {
 
         val imageViewArtists: ImageView = findViewById(R.id.album_image)
         imageViewArtists.setOnClickListener {
-            val intent = Intent(this, PerformerActivity::class.java)
+            val intent = Intent(this, AlbumActivity::class.java)
             startActivity(intent)
         }
 
