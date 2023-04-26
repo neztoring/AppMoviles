@@ -34,7 +34,7 @@ class MenuColeccionistaActivity : AppCompatActivity() {
                 R.id.albums_handler -> print("manejar albmes")
                 R.id.create_album -> print("crear album")
                 R.id.associate_track -> print("Asociar track")
-                R.id.profile_change -> print("Cambiar perfil")
+                R.id.profile_change -> this.finish()
             }
             true
         }

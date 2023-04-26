@@ -11,6 +11,7 @@
         android:icon="@drawable/albums_icon"/>
     <item
         android:id="@+id/profile_change_user"
-        android:title="@string/profile_change" />
+        android:title="@string/profile_change"
+        android:icon="@drawable/profile_change"/>
 
 </menu>
