@@ -8,4 +8,7 @@
     <string name="placeholder_album_name">Nombre del album</string>
     <string name="placeholder_album_description">Descripcion del album</string>
     <string name="title_album_list">Lista de álbumes</string>
+    <string name="artistas">Artistas</string>
+    <string name="artistasCapital">ARTISTAS</string>
+    <string name="atras">Back</string>
 </resources>

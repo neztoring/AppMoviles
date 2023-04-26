@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.appmoviles.R
 import com.example.appmoviles.ui.album.AlbumActivity
+import com.example.appmoviles.ui.performer.PerformerActivity
 
 class MenuUsuarioActivity : AppCompatActivity() {
 
@@ -22,11 +23,24 @@ class MenuUsuarioActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val imageViewAlbum: ImageView = findViewById(R.id.album_image)
+        val imageViewAlbum: ImageView = findViewById(R.id.cantante_image)
         imageViewAlbum.setOnClickListener {
-            val intent = Intent(this, AlbumActivity::class.java)
+            val intent = Intent(this, PerformerActivity::class.java)
             startActivity(intent)
         }
+
+        val textViewArtists: TextView = findViewById(R.id.textView5)
+        textViewArtists.setOnClickListener {
+            val intent = Intent (this, PerformerActivity::class.java)
+            startActivity(intent)
+        }
+
+        val imageViewArtists: ImageView = findViewById(R.id.album_image)
+        imageViewArtists.setOnClickListener {
+            val intent = Intent(this, PerformerActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
 

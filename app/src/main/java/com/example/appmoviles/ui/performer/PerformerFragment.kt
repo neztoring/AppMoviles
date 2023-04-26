@@ -1,4 +1,4 @@
-package com.example.appmoviles.ui
+package com.example.appmoviles.ui.performer
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.appmoviles.R
 import com.example.appmoviles.databinding.PerformerFragmentBinding
 import com.example.appmoviles.models.Performer
-import com.example.appmoviles.adapters.PerformersAdapter
+import com.example.appmoviles.ui.adapters.PerformersAdapter
 import com.example.appmoviles.viewmodels.PerformerViewModel
 
 /**

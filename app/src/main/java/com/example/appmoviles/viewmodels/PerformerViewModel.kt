@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.appmoviles.models.Performer
-import com.example.vinyls_jetpack_application.network.NetworkServiceAdapter
+import com.example.appmoviles.network.NetworkServiceAdapter
 
 class PerformerViewModel(application: Application) :  AndroidViewModel(application) {
 
