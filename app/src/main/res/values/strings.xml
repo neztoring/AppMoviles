@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">AppMoviles</string>
-    <string name="artistas">Artistas</string>
-    <string name="artistasCapital">ARTISTAS</string>
-    <string name="atras">Back</string>
+    <string name="label_button_usuario">Soy un Usuario</string>
+    <string name="title_menu_usuario">Usuario Visitante</string>
+    <string name="label_button_coleccionista">Soy un Coleccionista</string>
+    <string name="title_menu_coleccionista">Coleccionista</string>
+    <string name="title_album">Álbumes</string>
+    <string name="placeholder_album_name">Nombre del album</string>
+    <string name="placeholder_album_description">Descripcion del album</string>
+    <string name="title_album_list">Lista de álbumes</string>
 </resources>

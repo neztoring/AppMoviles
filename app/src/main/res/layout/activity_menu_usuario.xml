@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="382dp"
+        android:layout_height="152dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="-2dp"
+        android:background="#03A9F4">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="48dp"
+            android:fontFamily="cursive"
+            android:text="@string/title_menu_usuario"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textColor="@color/white" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="138dp"
+            android:layout_height="64dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="47dp"
+            app:srcCompat="@drawable/usuarios" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/cantante_image"
+        android:layout_width="67dp"
+        android:layout_height="68dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="41dp"
+        android:layout_marginTop="208dp"
+        android:src="@drawable/cantante"
+        android:fontFamily="cursive"/>
+
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="115dp"
+        android:layout_marginTop="218dp"
+        android:fontFamily="cursive"
+        android:text="Artistas"
+        android:textSize="32dp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/album_image"
+        android:layout_width="65dp"
+        android:layout_height="58dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="325dp"
+        android:src="@drawable/album"
+        android:clickable="true"/>
+
+    <TextView
+        android:id="@+id/album_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="117dp"
+        android:layout_marginTop="334dp"
+        android:fontFamily="cursive"
+        android:text="@string/title_album"
+        android:textSize="32dp"
+        android:textStyle="bold"
+        android:clickable="true"/>
+
+</RelativeLayout>
