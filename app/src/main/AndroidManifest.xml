@@ -20,6 +20,12 @@
             android:parentActivityName=".ui.MenuUsuarioActivity"
             android:theme="@style/Theme.AppMoviles"/>
         <activity
+            android:name=".ui.performer.PerformerActivity"
+            android:label="@string/artistas"
+            android:exported="false"
+            android:parentActivityName=".ui.MenuUsuarioActivity"
+            android:theme="@style/Theme.AppMoviles"/>
+        <activity
             android:name=".ui.MenuColeccionistaActivity"
             android:exported="false"
             android:label="@string/title_menu_coleccionista"
