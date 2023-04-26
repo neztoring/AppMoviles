@@ -29,8 +29,8 @@
         android:id="@+id/navViewCollector"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:headerLayout="@layout/nav_header"
-        app:menu="@menu/nav_drawer_menu"
+        app:headerLayout="@layout/nav_header_collector"
+        app:menu="@menu/nav_drawer_menu_collector"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"/>
 
