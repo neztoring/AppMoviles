@@ -8,9 +8,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.appmoviles.models.Performer
 import com.example.appmoviles.network.NetworkServiceAdapter
+import com.example.appmoviles.repositories.AlbumRepository
+import com.example.appmoviles.repositories.PerformerRepository
 
 class PerformerViewModel(application: Application) :  AndroidViewModel(application) {
 
+
+    private val performesRepository = PerformerRepository(application)
     private val _performers = MutableLiveData<List<Performer>>()
 
     val performers: LiveData<List<Performer>>
@@ -31,7 +35,7 @@ class PerformerViewModel(application: Application) :  AndroidViewModel(applicati
     }
 
     private fun refreshDataFromNetwork() {
-        NetworkServiceAdapter.getInstance(getApplication()).getPerformers({
+       performesRepository.refreshData({
             _performers.postValue(it)
             _eventNetworkError.value = false
             _isNetworkErrorShown.value = false
