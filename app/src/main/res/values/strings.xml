@@ -11,4 +11,7 @@
     <string name="artistas">Artistas</string>
     <string name="artistasCapital">ARTISTAS</string>
     <string name="atras">Back</string>
+    <string name="open">Abrir</string>
+    <string name="close">Cerrar</string>
+    <string name="profile_change">Cambiar perfil</string>
 </resources>
