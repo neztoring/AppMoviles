@@ -1,4 +1,5 @@
 package com.example.appmoviles.ui
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -7,6 +8,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.appmoviles.R
+import com.example.appmoviles.ui.album.AlbumActivity
 import com.google.android.material.navigation.NavigationView
 
 
@@ -28,8 +30,11 @@ class MenuColeccionistaActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         navViewCollector.setNavigationItemSelectedListener {
             when(it.itemId){
-                R.id.item1 -> Toast.makeText(applicationContext, "Clicked Item 1", Toast.LENGTH_SHORT).show()
-                R.id.item2 -> Toast.makeText(applicationContext, "Clicked Item 2", Toast.LENGTH_SHORT).show()
+                R.id.fav_performers -> print("artistas favoritos")
+                R.id.albums_handler -> print("manejar albmes")
+                R.id.create_album -> print("crear album")
+                R.id.associate_track -> print("Asociar track")
+                R.id.profile_change -> print("Cambiar perfil")
             }
             true
         }

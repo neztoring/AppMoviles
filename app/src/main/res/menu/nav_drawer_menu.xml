@@ -2,10 +2,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/item1"
-        android:title="Item 1"/>
+        android:id="@+id/fav_performers"
+        android:title="@string/fav_performers"
+        android:icon="@drawable/favs"/>
     <item
-        android:id="@+id/item2"
-        android:title="Item 2"/>
+        android:id="@+id/albums_handler"
+        android:title="@string/albums_handler"
+        android:icon="@drawable/album_handler"/>
+    <item
+        android:id="@+id/create_album"
+        android:title="@string/create_album"
+        android:icon="@drawable/create_album"/>
+    <item
+        android:id="@+id/associate_track"
+        android:title="@string/associate_track"
+        android:icon="@drawable/associate_icon"/>
+    <item
+        android:id="@+id/profile_change"
+        android:title="@string/profile_change"
+        android:icon="@drawable/profile_change"/>
 
 </menu>
