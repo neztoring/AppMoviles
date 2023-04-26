@@ -4,6 +4,8 @@
     <string name="title_menu_usuario">Usuario  Visitante</string>
     <string name="label_button_coleccionista">Soy un Coleccionista</string>
     <string name="title_menu_coleccionista">Coleccionista</string>
+    <string name="open">Abrir</string>
+    <string name="close">Cerrar</string>
 
 
 
