@@ -12,6 +12,8 @@ class AlbumActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_album)
 
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
     }
 
 }

@@ -7,15 +7,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.appmoviles.R
-import com.example.appmoviles.databinding.AlbumItemBinding
+import com.example.appmoviles.databinding.AlbumListItemBinding
 import com.example.appmoviles.models.Album
 
 class AlbumsAdapter : RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder>() {
 
-    class AlbumViewHolder(val viewDatabinding: AlbumItemBinding): RecyclerView.ViewHolder(viewDatabinding.root){
+    class AlbumViewHolder(val viewDatabinding: AlbumListItemBinding): RecyclerView.ViewHolder(viewDatabinding.root){
         companion object{
             @LayoutRes
-            val LAYOUT = R.layout.album_item
+            val LAYOUT = R.layout.album_list_item
         }
     }
 
@@ -26,7 +26,7 @@ class AlbumsAdapter : RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder>() {
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder {
-        val withDataBinding: AlbumItemBinding = DataBindingUtil.inflate(
+        val withDataBinding: AlbumListItemBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
             AlbumViewHolder.LAYOUT,
             parent,
@@ -40,7 +40,7 @@ class AlbumsAdapter : RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder>() {
             it.album = albums[position]
             Glide.with(holder.itemView)
                 .load(albums[position].cover)
-                .into(holder.viewDatabinding.imageViewAlbum)
+                .into(holder.viewDatabinding.imageListAlbum)
         }
     }
 
