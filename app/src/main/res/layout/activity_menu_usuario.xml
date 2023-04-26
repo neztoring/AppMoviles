@@ -76,10 +76,11 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginStart="45dp"
         android:layout_marginTop="325dp"
-        android:src="@drawable/album" />
+        android:src="@drawable/album"
+        android:clickable="true"/>
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/album_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -87,8 +88,9 @@
         android:layout_marginStart="117dp"
         android:layout_marginTop="334dp"
         android:fontFamily="cursive"
-        android:text="Albumes"
+        android:text="@string/title_album"
         android:textSize="32dp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:clickable="true"/>
 
 </RelativeLayout>
