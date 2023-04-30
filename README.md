@@ -12,6 +12,7 @@
 
 
 4. Ejecutarla opción Build-> Rebuild Project
+
 ![image](https://user-images.githubusercontent.com/20029761/235358395-a6d8bd16-e8b5-4af6-8159-12d1eaa7c55d.png)
 
 ![image](https://user-images.githubusercontent.com/20029761/235358432-756f79d9-0f06-4b1e-b671-7f82652eb759.png)
