@@ -78,4 +78,40 @@ class ExampleInstrumentedTest {
             .perform(NavigationViewActions.navigateTo(R.id.albums));
 
     }
+
+    @Test
+    fun navigateCollectorMenu() {
+
+        val userBtn: ViewInteraction =
+            onView(allOf(withId(R.id.button_coleccionista), withText(R.string.label_button_coleccionista), isDisplayed()))
+        userBtn.perform(click())
+
+        onView(withId(R.id.drawerLayoutCollector))
+            .check(matches(isClosed(Gravity.LEFT))) // Left Drawer should be closed.
+            .perform(DrawerActions.open()); // Open Drawer
+
+        onView(allOf(withId(R.id.fav_performers), withText(R.string.fav_performers), isDisplayed()))
+        onView(allOf(withId(R.id.albums_handler), withText(R.string.albums_handler), isDisplayed()))
+        onView(allOf(withId(R.id.create_album), withText(R.string.create_album), isDisplayed()))
+        onView(allOf(withId(R.id.associate_track), withText(R.string.associate_track), isDisplayed()))
+        onView(allOf(withId(R.id.profile_change), withText(R.string.profile_change), isDisplayed()))
+
+    }
+
+    @Test
+    fun changeProfileCollectorMenu() {
+
+        val userBtn: ViewInteraction =
+            onView(allOf(withId(R.id.button_coleccionista), withText(R.string.label_button_coleccionista), isDisplayed()))
+        userBtn.perform(click())
+
+        onView(withId(R.id.drawerLayoutCollector))
+            .check(matches(isClosed(Gravity.LEFT))) // Left Drawer should be closed.
+            .perform(DrawerActions.open()); // Open Drawer
+
+        onView(withId(R.id.profile_change)).perform(click());
+
+        onView(allOf(withId(R.id.button_coleccionista), withText(R.string.label_button_coleccionista), isDisplayed()))
+
+    }
 }
