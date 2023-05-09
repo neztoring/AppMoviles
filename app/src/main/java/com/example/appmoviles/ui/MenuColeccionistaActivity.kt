@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.appmoviles.R
 import com.example.appmoviles.ui.album.AlbumActivity
+import com.example.appmoviles.ui.album.TrackToAlbumActivity
 import com.google.android.material.navigation.NavigationView
 
 
@@ -28,12 +29,13 @@ class MenuColeccionistaActivity : AppCompatActivity() {
         drawerLayoutCollector.addDrawerListener(toggle)
         toggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        val intentTrackToAlbum = Intent (this, TrackToAlbumActivity::class.java)
         navViewCollector.setNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.fav_performers -> print("artistas favoritos")
                 R.id.albums_handler -> print("manejar albmes")
                 R.id.create_album -> print("crear album")
-                R.id.associate_track -> print("Asociar track")
+                R.id.associate_track -> startActivity(intentTrackToAlbum)
                 R.id.profile_change -> this.finish()
             }
             true
