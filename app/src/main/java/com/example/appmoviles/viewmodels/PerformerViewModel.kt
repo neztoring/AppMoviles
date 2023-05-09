@@ -6,10 +6,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.example.appmoviles.models.Performer
 import com.example.appmoviles.network.NetworkServiceAdapter
 import com.example.appmoviles.repositories.AlbumRepository
 import com.example.appmoviles.repositories.PerformerRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class PerformerViewModel(application: Application) :  AndroidViewModel(application) {
 
@@ -35,13 +39,20 @@ class PerformerViewModel(application: Application) :  AndroidViewModel(applicati
     }
 
     private fun refreshDataFromNetwork() {
-       performesRepository.refreshData({
-            _performers.postValue(it)
-            _eventNetworkError.value = false
-            _isNetworkErrorShown.value = false
-        },{
+        try {
+            viewModelScope.launch(Dispatchers.Default){
+                withContext(Dispatchers.IO){
+                    var data = performesRepository.refreshData()
+                    _performers.postValue(data)
+                }
+                _eventNetworkError.postValue(false)
+                _isNetworkErrorShown.postValue(false)
+            }
+        }
+        catch (e:Exception){
             _eventNetworkError.value = true
-        })
+        }
+
     }
 
     fun onNetworkErrorShown() {
