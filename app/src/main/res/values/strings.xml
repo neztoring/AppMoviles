@@ -64,6 +64,8 @@
     <string name="hint_track_name">Nombre</string>
     <string name="hint_track_duration">Duración</string>
     <string name="hint_track_album">Álbum</string>
+    <string name="label_button_save">Guardar</string>
+    <string name="form_required_field">El campo es requerido</string>
     <!-- Strings used for fragments for navigation -->
 
 </resources>
