@@ -6,6 +6,8 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.example.appmoviles.R
 import com.example.appmoviles.databinding.AlbumListItemBinding
 import com.example.appmoviles.models.Album
@@ -40,6 +42,10 @@ class AlbumsAdapter : RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder>() {
             it.album = albums[position]
             Glide.with(holder.itemView)
                 .load(albums[position].cover)
+                .apply(RequestOptions()
+                    .placeholder(R.drawable.loading_animation)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .error(R.drawable.ic_broken_image))
                 .into(holder.viewDatabinding.imageListAlbum)
         }
     }
