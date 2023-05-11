@@ -2,6 +2,8 @@ package com.example.appmoviles.ui.album
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +15,7 @@ import androidx.lifecycle.Observer
 import com.example.appmoviles.R
 import com.example.appmoviles.databinding.FragmentTrackToAlbumBinding
 import com.example.appmoviles.models.Album
+import com.example.appmoviles.models.Track
 import com.example.appmoviles.viewmodels.AlbumViewModel
 
 
@@ -28,6 +31,9 @@ class TrackToAlbumFragment : Fragment(), AdapterView.OnItemClickListener {
 
     private lateinit var albums: List<Album>
     private lateinit var albumesNames: ArrayList <String>
+
+
+    private lateinit var track: Track
 
     private var positionAlbumSelected = 0
 
@@ -99,6 +105,14 @@ class TrackToAlbumFragment : Fragment(), AdapterView.OnItemClickListener {
         return isValid
     }
 
+
+    private fun clearForm() {
+        binding.trackName.setText("")
+        binding.trackDuration.setText("")
+        binding.autoCompleteTextView3.setText("")
+        positionAlbumSelected=-1
+    }
+
     private fun saveTrackToAlbum() {
         if(validateForm()) {
 
@@ -109,8 +123,32 @@ class TrackToAlbumFragment : Fragment(), AdapterView.OnItemClickListener {
                             .plus(albums.get(positionAlbumSelected).name)
                     }"
 
-            Toast.makeText(context, dataStr, Toast.LENGTH_SHORT).show()
+            Log.println(Log.INFO,"Informacion Track",dataStr)
+            viewModel.addTrackToAlbum(binding.trackName.text.toString(),binding.trackDuration.text.toString(),albums.get(positionAlbumSelected).albumId)
 
+            viewModel.track.observe(viewLifecycleOwner, Observer<Track> { t ->
+                    track = t
+                Log.println(Log.INFO,"Informacion Track",track.trackId.toString())
+                Toast.makeText(activity, "Asociación Exitosa: Id Track:".plus(track.trackId.toString()), Toast.LENGTH_LONG).show()
+                clearForm()
+            })
+
+            viewModel.eventNetworkError.observe(viewLifecycleOwner, Observer<Boolean> { isNetworkError ->
+                if(isNetworkError) onNetworkError()
+            })
+
+        }
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+    private fun onNetworkError(){
+        if(!viewModel.isNetworkErrorShown.value!!){
+            Toast.makeText(activity, "Network Error", Toast.LENGTH_LONG).show()
+            viewModel.onNetworkErrorShown()
         }
     }
 

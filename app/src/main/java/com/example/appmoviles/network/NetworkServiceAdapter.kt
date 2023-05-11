@@ -6,11 +6,14 @@ import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.VolleyError
+import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.appmoviles.models.Album
 import com.example.appmoviles.models.Performer
+import com.example.appmoviles.models.Track
 import org.json.JSONArray
+import org.json.JSONObject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -63,8 +66,26 @@ class NetworkServiceAdapter constructor(context: Context) {
             }))
     }
 
+    suspend fun postTrackToAlbum(body: JSONObject, albumId: Int)= suspendCoroutine<Track>{ cont->
+        requestQueue.add(postRequest("albums/".plus(albumId).plus("/tracks"),
+            body,
+            Response.Listener<JSONObject> { response ->
+                cont.resume(Track(response.getInt("id"),response.getString("name"),response.getString("duration")))
+            },
+            Response.ErrorListener {
+                cont.resumeWithException(it)
+            }))
+    }
+
+
     private fun getRequest(path: String, responseListener: Response.Listener<String>, errorListener: Response.ErrorListener): StringRequest {
         return StringRequest(Request.Method.GET, BASE_URL+path, responseListener, errorListener)
     }
+    private fun postRequest(path: String, body: JSONObject, responseListener: Response.Listener<JSONObject>, errorListener: Response.ErrorListener ): JsonObjectRequest {
+        return  JsonObjectRequest(Request.Method.POST, BASE_URL+path, body, responseListener, errorListener)
+    }
+
+
+
 
 }

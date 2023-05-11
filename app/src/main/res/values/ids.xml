@@ -7,4 +7,6 @@
     <item name="track_duration" type="id" />
     <item name="til_track_album" type="id" />
     <item name="track_album" type="id" />
+    <item name="track_duration_seconds" type="id" />
+    <item name="til_track_duration_seconds" type="id" />
 </resources>
