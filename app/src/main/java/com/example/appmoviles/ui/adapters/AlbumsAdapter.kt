@@ -43,9 +43,12 @@ class AlbumsAdapter : RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder>() {
         holder.viewDatabinding.also {
             it.album = albums[position]
             Glide.with(holder.itemView)
-                .load(albums[position].cover).apply(RequestOptions()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL))
-                .into(holder.viewDatabinding.imageListAlbum)
+                .load(albums[position].cover)
+                .apply(RequestOptions()
+                    .placeholder(R.drawable.loading_animation)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .error(R.drawable.ic_broken_image))
+
         }
         holder.viewDatabinding.root.setOnClickListener { v ->
             val intent = Intent(v.context, AlbumDetailActivity::class.java)
