@@ -27,7 +27,7 @@
     <string name="album_record_label">Sello discográfico</string>
     <string name="save_album">Guardar</string>
     <string-array name="genre_array">
-        <item>Clásico</item>
+        <item>Classical</item>
         <item>Salsa</item>
         <item>Rock</item>
         <item>Folk</item>
