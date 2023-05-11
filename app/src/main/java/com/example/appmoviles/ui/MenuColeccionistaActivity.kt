@@ -3,11 +3,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.appmoviles.R
+import com.example.appmoviles.ui.album.AlbumCreationActivity
 import com.example.appmoviles.ui.album.AlbumActivity
 import com.example.appmoviles.ui.album.TrackToAlbumActivity
 import com.google.android.material.navigation.NavigationView
@@ -28,13 +28,14 @@ class MenuColeccionistaActivity : AppCompatActivity() {
         toggle = ActionBarDrawerToggle(this, drawerLayoutCollector, R.string.open, R.string.close)
         drawerLayoutCollector.addDrawerListener(toggle)
         toggle.syncState()
+        val intentAlbumCreationActivity = Intent(this, AlbumCreationActivity::class.java)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val intentTrackToAlbum = Intent (this, TrackToAlbumActivity::class.java)
         navViewCollector.setNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.fav_performers -> print("artistas favoritos")
                 R.id.albums_handler -> print("manejar albmes")
-                R.id.create_album -> print("crear album")
+                R.id.create_album -> startActivity(intentAlbumCreationActivity)
                 R.id.associate_track -> startActivity(intentTrackToAlbum)
                 R.id.profile_change -> this.finish()
             }

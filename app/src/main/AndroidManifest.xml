@@ -44,6 +44,12 @@
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/Theme.AppMoviles" />
         <activity
+            android:name=".ui.album.AlbumCreationActivity"
+            android:exported="false"
+            android:label="@string/create_album"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/Theme.AppMoviles" />
+        <activity
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>

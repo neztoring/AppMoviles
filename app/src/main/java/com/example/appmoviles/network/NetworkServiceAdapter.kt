@@ -1,7 +1,6 @@
 package com.example.appmoviles.network
 
 import android.content.Context
-import android.net.wifi.p2p.WifiP2pManager.DnsSdServiceResponseListener
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
@@ -66,7 +65,19 @@ class NetworkServiceAdapter constructor(context: Context) {
             }))
     }
 
-    suspend fun postTrackToAlbum(body: JSONObject, albumId: Int)= suspendCoroutine<Track>{ cont->
+    fun postAlbum(body: JSONObject, onComplete:(resp:JSONObject)->Unit , onError: (error:VolleyError)->Unit){
+        requestQueue.add(postRequest("albums",
+            body,
+            Response.Listener<JSONObject> { response ->
+                onComplete(response)
+            },
+            Response.ErrorListener {
+                onError(it)
+            }))
+    }
+
+
+   suspend fun postTrackToAlbum(body: JSONObject, albumId: Int)= suspendCoroutine<Track>{ cont->
         requestQueue.add(postRequest("albums/".plus(albumId).plus("/tracks"),
             body,
             Response.Listener<JSONObject> { response ->
@@ -76,8 +87,7 @@ class NetworkServiceAdapter constructor(context: Context) {
                 cont.resumeWithException(it)
             }))
     }
-
-
+        
     private fun getRequest(path: String, responseListener: Response.Listener<String>, errorListener: Response.ErrorListener): StringRequest {
         return StringRequest(Request.Method.GET, BASE_URL+path, responseListener, errorListener)
     }
@@ -86,6 +96,11 @@ class NetworkServiceAdapter constructor(context: Context) {
     }
 
 
+
+
+    private fun postRequest(path: String, body: JSONObject, responseListener: Response.Listener<JSONObject>, errorListener: Response.ErrorListener ): JsonObjectRequest {
+        return  JsonObjectRequest(Request.Method.POST, BASE_URL+path, body, responseListener, errorListener)
+    }
 
 
 }
