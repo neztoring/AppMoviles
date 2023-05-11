@@ -47,6 +47,7 @@ class PerformersAdapter : RecyclerView.Adapter<PerformersAdapter.PerformerViewHo
         return performers.size
     }
 
+
     class PerformerViewHolder(val viewDataBinding: PerformerItemBinding) :
         RecyclerView.ViewHolder(viewDataBinding.root) {
         companion object {
