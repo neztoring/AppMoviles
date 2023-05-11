@@ -12,6 +12,11 @@ class AlbumRepository (val application: Application){
         return NetworkServiceAdapter.getInstance(application).getAlbums()
     }
 
+
+    suspend fun refreshDataDetail(id: Int):Album {
+        return NetworkServiceAdapter.getInstance(application).getAlbum(id)
+    }
+    
     suspend fun trackToAlbum(body: JSONObject, albumId: Int):Track{
         return NetworkServiceAdapter.getInstance(application).postTrackToAlbum(body,albumId)
     }

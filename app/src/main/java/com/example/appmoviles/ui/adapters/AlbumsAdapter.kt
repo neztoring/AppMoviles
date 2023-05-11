@@ -1,14 +1,18 @@
 package com.example.appmoviles.ui.adapters
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.example.appmoviles.R
 import com.example.appmoviles.databinding.AlbumListItemBinding
 import com.example.appmoviles.models.Album
+import com.example.appmoviles.ui.album.AlbumDetailActivity
 
 class AlbumsAdapter : RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder>() {
 
@@ -39,8 +43,14 @@ class AlbumsAdapter : RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder>() {
         holder.viewDatabinding.also {
             it.album = albums[position]
             Glide.with(holder.itemView)
-                .load(albums[position].cover)
+                .load(albums[position].cover).apply(RequestOptions()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL))
                 .into(holder.viewDatabinding.imageListAlbum)
+        }
+        holder.viewDatabinding.root.setOnClickListener { v ->
+            val intent = Intent(v.context, AlbumDetailActivity::class.java)
+            intent.putExtra("albumDetail", albums[position])
+            v.context.startActivity(intent)
         }
     }
 

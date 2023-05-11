@@ -15,14 +15,20 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import android.view.Gravity
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.DrawerActions
 import androidx.test.espresso.contrib.DrawerMatchers.isClosed
 import androidx.test.espresso.contrib.NavigationViewActions
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import com.example.appmoviles.ui.adapters.AlbumsAdapter
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -77,6 +83,25 @@ class ExampleInstrumentedTest {
         onView(withId(R.id.navViewUser))
             .perform(NavigationViewActions.navigateTo(R.id.albums));
 
+    }
+
+    @Test
+    fun navigateAlbumDetail() {
+
+        val userBtn: ViewInteraction =
+            onView(allOf(withId(R.id.button_usuario), withText("Soy un Usuario"), isDisplayed()))
+        userBtn.perform(click())
+
+        onView(withId(R.id.drawerLayoutUser))
+            .check(matches(isClosed(Gravity.LEFT))) // Left Drawer should be closed.
+            .perform(DrawerActions.open()); // Open Drawer
+
+        onView(withId(R.id.navViewUser))
+            .perform(NavigationViewActions.navigateTo(R.id.albums));
+
+        TimeUnit.SECONDS.sleep(2L)
+        onView(withId(R.id.albumsRv))
+            .perform(RecyclerViewActions.actionOnItemAtPosition<ViewHolder>(0, click()))
     }
 
     @Test
