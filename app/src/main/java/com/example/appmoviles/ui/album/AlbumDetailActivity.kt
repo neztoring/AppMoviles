@@ -9,7 +9,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.example.appmoviles.R
 import com.example.appmoviles.models.Album
-import com.squareup.picasso.Picasso
 
 class AlbumDetailActivity : AppCompatActivity() {
 
