@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+    
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <ImageView
+            android:id="@+id/image_album"
+            android:layout_width="match_parent"
+            android:layout_height="331dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dp"
+            />
+
+        <TextView
+            android:id="@+id/fecha_lanzamiento_label"
+            android:layout_width="195dp"
+            android:layout_height="27dp"
+            android:text="Fecha de lanzamiento: "
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_below="@id/image_album"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dp"
+            />
+
+        <TextView
+            android:id="@+id/fecha_lanzamiento"
+            android:layout_width="175dp"
+            android:layout_height="27dp"
+            android:textSize="18sp"
+            android:layout_below="@id/image_album"
+            android:layout_toRightOf="@+id/fecha_lanzamiento_label"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/genero_label"
+            android:layout_width="195dp"
+            android:layout_height="27dp"
+            android:text="Género:"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_below="@id/fecha_lanzamiento_label"
+            android:layout_alignParentLeft="true" />
+
+        <TextView
+            android:id="@+id/genero"
+            android:layout_width="175dp"
+            android:layout_height="27dp"
+            android:textSize="18sp"
+            android:layout_below="@id/fecha_lanzamiento"
+            android:layout_toRightOf="@+id/genero_label"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/compania_label"
+            android:layout_width="195dp"
+            android:layout_height="27dp"
+            android:text="Compañia Discográfica:"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_below="@id/genero_label"
+            android:layout_alignParentLeft="true" />
+
+        <TextView
+            android:id="@+id/compania"
+            android:layout_width="175dp"
+            android:layout_height="27dp"
+            android:textSize="18sp"
+            android:layout_below="@id/genero"
+            android:layout_toRightOf="@+id/compania_label"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/descripcion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_below="@id/compania"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dp"/>
+
+    </RelativeLayout>
+</ScrollView>
