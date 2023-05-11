@@ -9,23 +9,34 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_vinilo_launcher"
-        android:roundIcon="@mipmap/ic_vinilo_launcher_round"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_vinilo_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppMoviles"
         tools:targetApi="31">
         <activity
-            android:name=".ui.album.AlbumActivity"
-            android:label="@string/title_album_list"
+            android:name=".ui.album.TrackToAlbumActivity"
             android:exported="false"
+            android:label="@string/title_activity_track_to_album"
+            android:theme="@style/Theme.AppMoviles" />
+        <activity
+            android:name=".ui.album.AlbumActivity"
+            android:exported="false"
+            android:label="@string/title_album_list"
             android:parentActivityName=".ui.MenuUsuarioActivity"
+            android:theme="@style/Theme.AppMoviles" />
+        <activity
+            android:name=".ui.album.AlbumDetailActivity"
+            android:label="Detalle de albúm"
+            android:exported="false"
+            android:parentActivityName=".ui.album.AlbumActivity"
             android:theme="@style/Theme.AppMoviles"/>
         <activity
             android:name=".ui.performer.PerformerActivity"
-            android:label="@string/artistas"
             android:exported="false"
+            android:label="@string/artistas"
             android:parentActivityName=".ui.MenuUsuarioActivity"
-            android:theme="@style/Theme.AppMoviles"/>
+            android:theme="@style/Theme.AppMoviles" />
         <activity
             android:name=".ui.MenuColeccionistaActivity"
             android:exported="false"
@@ -36,6 +47,12 @@
             android:name=".ui.MenuUsuarioActivity"
             android:exported="false"
             android:label="@string/title_menu_usuario"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/Theme.AppMoviles" />
+        <activity
+            android:name=".ui.album.AlbumCreationActivity"
+            android:exported="false"
+            android:label="@string/create_album"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/Theme.AppMoviles" />
         <activity

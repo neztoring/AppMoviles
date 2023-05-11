@@ -5,6 +5,9 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.example.appmoviles.R
 import com.example.appmoviles.databinding.PerformerItemBinding
 import com.example.appmoviles.models.Performer
@@ -30,18 +33,20 @@ class PerformersAdapter : RecyclerView.Adapter<PerformersAdapter.PerformerViewHo
     override fun onBindViewHolder(holder: PerformerViewHolder, position: Int) {
         holder.viewDataBinding.also {
             it.performer = performers[position]
-            Picasso.get().load(performers[position].image).into(it.performerImage)
-        }
+            Glide.with(holder.itemView)
+                .load(performers[position].image).apply(
+                    RequestOptions()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL))
+                .into(holder.viewDataBinding.performerImage)
+            }
         holder.viewDataBinding.root.setOnClickListener {
-            //val action = CollectorFragmentDirections.actionCollectorFragmentToAlbumFragment()
-            // Navigate using that action
-            //holder.viewDataBinding.root.findNavController().navigate(action)
         }
     }
 
     override fun getItemCount(): Int {
         return performers.size
     }
+
 
     class PerformerViewHolder(val viewDataBinding: PerformerItemBinding) :
         RecyclerView.ViewHolder(viewDataBinding.root) {

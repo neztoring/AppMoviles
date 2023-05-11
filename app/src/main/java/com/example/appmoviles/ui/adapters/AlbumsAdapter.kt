@@ -1,5 +1,6 @@
 package com.example.appmoviles.ui.adapters
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
@@ -11,6 +12,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.appmoviles.R
 import com.example.appmoviles.databinding.AlbumListItemBinding
 import com.example.appmoviles.models.Album
+import com.example.appmoviles.ui.album.AlbumDetailActivity
 
 class AlbumsAdapter : RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder>() {
 
@@ -46,7 +48,12 @@ class AlbumsAdapter : RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder>() {
                     .placeholder(R.drawable.loading_animation)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .error(R.drawable.ic_broken_image))
-                .into(holder.viewDatabinding.imageListAlbum)
+
+        }
+        holder.viewDatabinding.root.setOnClickListener { v ->
+            val intent = Intent(v.context, AlbumDetailActivity::class.java)
+            intent.putExtra("albumDetail", albums[position])
+            v.context.startActivity(intent)
         }
     }
 

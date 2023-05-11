@@ -3,6 +3,7 @@
     <string name="label_button_usuario">Soy un Usuario</string>
     <string name="title_menu_usuario">Usuario Visitante</string>
     <string name="label_button_coleccionista">Soy un Coleccionista</string>
+    <string name="label_detalle_album">Título del album</string>
     <string name="title_menu_coleccionista">Coleccionista</string>
     <string name="title_album">Álbumes</string>
     <string name="placeholder_album_name">Nombre del album</string>
@@ -18,6 +19,34 @@
     <string name="create_album">Crear álbum</string>
     <string name="associate_track">Asociar track a un álbum</string>
     <string name="profile_change">Cambiar perfil</string>
-    <!-- Strings used for fragments for navigation -->
+
+    <string name="album_name">Nombre</string>
+    <string name="album_coverage">Portada</string>
+    <string name="album_description">Descripción</string>
+    <string name="album_release_date">Fecha de lanzamiento</string>
+    <string name="album_genre">Género</string>
+    <string name="album_record_label">Sello discográfico</string>
+    <string name="save_album">Guardar</string>
+    <string-array name="genre_array">
+        <item>Clásico</item>
+        <item>Salsa</item>
+        <item>Rock</item>
+        <item>Folk</item>
+    </string-array>
+    <string-array name="record_label_array">
+        <item>Sony Music</item>
+        <item>EMI</item>
+        <item>Discos Fuentes</item>
+        <item>Elektra</item>
+        <item>Fania Record</item>
+    </string-array>
+  
+    <string name="title_activity_track_to_album">Asociar Track a Álbum</string>
+    <string name="hint_track_name">Nombre</string>
+    <string name="hint_track_duration">Duración  mm:ss</string>
+    <string name="hint_track_album">Álbum</string>
+    <string name="label_button_save">Guardar</string>
+    <string name="form_required_field">El campo es requerido</string>
+
 
 </resources>
