@@ -48,7 +48,7 @@ class AlbumsAdapter : RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder>() {
                     .placeholder(R.drawable.loading_animation)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .error(R.drawable.ic_broken_image))
-
+                .into(holder.viewDatabinding.imageListAlbum)
         }
         holder.viewDatabinding.root.setOnClickListener { v ->
             val intent = Intent(v.context, AlbumDetailActivity::class.java)
