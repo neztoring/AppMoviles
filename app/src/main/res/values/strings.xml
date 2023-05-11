@@ -3,6 +3,7 @@
     <string name="label_button_usuario">Soy un Usuario</string>
     <string name="title_menu_usuario">Usuario Visitante</string>
     <string name="label_button_coleccionista">Soy un Coleccionista</string>
+    <string name="label_detalle_album">Título del album</string>
     <string name="title_menu_coleccionista">Coleccionista</string>
     <string name="title_album">Álbumes</string>
     <string name="placeholder_album_name">Nombre del album</string>

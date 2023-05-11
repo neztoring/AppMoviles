@@ -21,6 +21,12 @@
             android:parentActivityName=".ui.MenuUsuarioActivity"
             android:theme="@style/Theme.AppMoviles"/>
         <activity
+            android:name=".ui.album.AlbumDetailActivity"
+            android:label="Detalle de albúm"
+            android:exported="false"
+            android:parentActivityName=".ui.album.AlbumActivity"
+            android:theme="@style/Theme.AppMoviles"/>
+        <activity
             android:name=".ui.performer.PerformerActivity"
             android:label="@string/artistas"
             android:exported="false"
