@@ -3,7 +3,6 @@ package com.example.appmoviles.ui.album
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -64,13 +63,15 @@ class TrackToAlbumFragment : Fragment(), AdapterView.OnItemClickListener {
             albumesNames.clear()
             albums.forEach { alb-> albumesNames.add(alb.name) }
 
-            with(binding.autoCompleteTextView3){
-                setAdapter(ArrayAdapter(context,R.layout.list_item_album,albumesNames))
+            with(binding.autoCompleteTextViewAlbum){
+                setAdapter(ArrayAdapter(context,R.layout.list_item,albumesNames))
                 onItemClickListener =this@TrackToAlbumFragment
             }
         })
 
         setupButton()
+        setupDuration(view)
+
 
 
 
@@ -81,22 +82,53 @@ class TrackToAlbumFragment : Fragment(), AdapterView.OnItemClickListener {
         binding.buttonSaveTrack.setOnClickListener{ saveTrackToAlbum()}
     }
 
+
+    private fun setupDuration(view: View){
+
+        val minutes = resources.getStringArray(R.array.minutes_array)
+        val adapterMinutes = ArrayAdapter(
+            view.context,
+            R.layout.list_item,
+            minutes
+        )
+        with(binding.autoCompleteTextViewMinutes){
+            setAdapter(adapterMinutes)
+        }
+
+
+        val seconds = resources.getStringArray(R.array.seconds_array)
+        val adapterSeconds = ArrayAdapter(
+            view.context,
+            R.layout.list_item,
+            seconds
+        )
+        with(binding.autoCompleteTextViewSeconds){
+            setAdapter(adapterSeconds)
+        }
+
+    }
+
     private fun validateForm(): Boolean {
         var isValid = true
         binding.tilTrackName.error= ""
-        binding.tilTrackDuration.error=""
         binding.tilTrackAlbum.error=""
+        binding.tilTrackAlbumMinutes.error=""
+        binding.tilTrackAlbumSeconds.error=""
         with(binding){
             if(trackName.text.toString().isBlank()){
                 isValid = false
                 tilTrackName.error = getString(R.string.form_required_field)
             }
-            if(trackDuration.text.toString().isBlank()){
+            if(autoCompleteTextViewMinutes.text.toString().isBlank()){
                 isValid = false
-                tilTrackDuration.error = getString(R.string.form_required_field)
+                tilTrackAlbumMinutes.error = getString(R.string.form_required_field)
+            }
+            if(autoCompleteTextViewSeconds.text.toString().isBlank()){
+                isValid = false
+                tilTrackAlbumSeconds.error = getString(R.string.form_required_field)
             }
 
-            if(autoCompleteTextView3.text.toString().isBlank()){
+            if(autoCompleteTextViewAlbum.text.toString().isBlank()){
                 isValid = false
                 tilTrackAlbum.error = getString(R.string.form_required_field)
             }
@@ -108,8 +140,9 @@ class TrackToAlbumFragment : Fragment(), AdapterView.OnItemClickListener {
 
     private fun clearForm() {
         binding.trackName.setText("")
-        binding.trackDuration.setText("")
-        binding.autoCompleteTextView3.setText("")
+        binding.autoCompleteTextViewMinutes.setText("")
+        binding.autoCompleteTextViewSeconds.setText("")
+        binding.autoCompleteTextViewAlbum.setText("")
         positionAlbumSelected=-1
     }
 
@@ -117,14 +150,14 @@ class TrackToAlbumFragment : Fragment(), AdapterView.OnItemClickListener {
         if(validateForm()) {
 
             val dataStr = "Name: ${binding.trackName.text.toString()}," +
-                    "Duración: ${binding.trackDuration.text.toString()}," +
+                    "Duración: ${binding.autoCompleteTextViewMinutes.text.toString()}:${binding.autoCompleteTextViewSeconds.text.toString()}," +
                     "Album: ${
                         albums.get(positionAlbumSelected).albumId.toString().plus("-")
                             .plus(albums.get(positionAlbumSelected).name)
                     }"
 
             Log.println(Log.INFO,"Informacion Track",dataStr)
-            viewModel.addTrackToAlbum(binding.trackName.text.toString(),binding.trackDuration.text.toString(),albums.get(positionAlbumSelected).albumId)
+            viewModel.addTrackToAlbum(binding.trackName.text.toString(),"${binding.autoCompleteTextViewMinutes.text.toString()}:${binding.autoCompleteTextViewSeconds.text.toString()}",albums.get(positionAlbumSelected).albumId)
 
             viewModel.track.observe(viewLifecycleOwner, Observer<Track> { t ->
                     track = t
@@ -153,7 +186,6 @@ class TrackToAlbumFragment : Fragment(), AdapterView.OnItemClickListener {
     }
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        val item = parent?.getItemAtPosition(position).toString()
         positionAlbumSelected= position
     }
 
