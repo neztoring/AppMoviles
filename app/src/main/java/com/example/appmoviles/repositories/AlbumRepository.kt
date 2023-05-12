@@ -20,4 +20,8 @@ class AlbumRepository (val application: Application){
     suspend fun trackToAlbum(body: JSONObject, albumId: Int):Track{
         return NetworkServiceAdapter.getInstance(application).postTrackToAlbum(body,albumId)
     }
+
+    suspend fun addAlbum(body: JSONObject):Album{
+        return NetworkServiceAdapter.getInstance(application).postAlbum(body)
+    }
 }
