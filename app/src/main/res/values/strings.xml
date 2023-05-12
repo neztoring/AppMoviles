@@ -49,6 +49,7 @@
     <string name="form_required_field">El campo es requerido</string>
     <string name="hint_track_album_minutes">Minutos</string>
     <string name="hint_track_album_seconds">Segundos</string>
+    <string name="form_length_required_field">El campo supera la longitud de </string>
 
 
     <string-array name="minutes_array">
