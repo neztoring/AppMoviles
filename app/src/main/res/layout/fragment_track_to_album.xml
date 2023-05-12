@@ -12,7 +12,7 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@id/til_track_name"
+        android:id="@+id/til_track_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_track_name"
@@ -20,39 +20,57 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@id/track_name"
+            android:id="@+id/track_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>
 
+
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@id/til_track_duration"
+        android:id="@+id/til_track_album_minutes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_track_duration"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        android:hint="@string/hint_track_album_minutes"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@id/track_duration"
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextViewMinutes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-      </com.google.android.material.textfield.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_track_album_seconds"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_track_album_seconds"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextViewSeconds"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
 
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@id/til_track_album"
+        android:id="@+id/til_track_album"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_track_album"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
         <AutoCompleteTextView
-            android:id="@+id/autoCompleteTextView3"
+            android:id="@+id/autoCompleteTextViewAlbum"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="none"/>
+            android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>
+
+
 
     <Button
         android:id="@+id/button_save_track"

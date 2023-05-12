@@ -17,6 +17,7 @@ import org.junit.runner.RunWith
 import android.view.Gravity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -24,10 +25,12 @@ import androidx.test.espresso.contrib.DrawerActions
 import androidx.test.espresso.contrib.DrawerMatchers.isClosed
 import androidx.test.espresso.contrib.NavigationViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.example.appmoviles.ui.adapters.AlbumsAdapter
+import org.hamcrest.Matchers.equalTo
 import java.util.concurrent.TimeUnit
 
 
@@ -137,6 +140,74 @@ class ExampleInstrumentedTest {
         onView(withId(R.id.profile_change)).perform(click());
 
         onView(allOf(withId(R.id.button_coleccionista), withText(R.string.label_button_coleccionista), isDisplayed()))
+
+    }
+
+
+    @Test
+    fun addTrackToAlbumFailRequiredField() {
+
+        val userBtn: ViewInteraction =
+            onView(allOf(withId(R.id.button_coleccionista), withText(R.string.label_button_coleccionista), isDisplayed()))
+        userBtn.perform(click())
+
+        onView(withId(R.id.drawerLayoutCollector))
+            .check(matches(isClosed(Gravity.LEFT))) // Left Drawer should be closed.
+            .perform(DrawerActions.open()); // Open Drawer
+
+        onView(withId(R.id.associate_track)).perform(click());
+        TimeUnit.SECONDS.sleep(2L)
+
+        onView(withId(R.id.track_name)).perform(typeText("Mar Azul"))
+
+        onView(withId(R.id.autoCompleteTextViewMinutes)).perform(click());
+        onData(equalTo("3")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+
+        onView(withId(R.id.autoCompleteTextViewSeconds)).perform(click());
+        onData(equalTo("25")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+
+        onView(withId(R.id.button_save_track)).perform(click());
+        TimeUnit.SECONDS.sleep(2L)
+
+        onView(allOf(withId(R.id.til_track_album), withText(R.string.form_required_field), isDisplayed()))
+
+
+
+    }
+
+    @Test
+    fun addTrackToAlbumOK() {
+
+        val userBtn: ViewInteraction =
+            onView(allOf(withId(R.id.button_coleccionista), withText(R.string.label_button_coleccionista), isDisplayed()))
+        userBtn.perform(click())
+
+        onView(withId(R.id.drawerLayoutCollector))
+            .check(matches(isClosed(Gravity.LEFT))) // Left Drawer should be closed.
+            .perform(DrawerActions.open()); // Open Drawer
+
+        onView(withId(R.id.associate_track)).perform(click());
+        TimeUnit.SECONDS.sleep(1L)
+
+        onView(withId(R.id.track_name)).perform(typeText("Cielito Lindo"))
+
+        onView(withId(R.id.autoCompleteTextViewMinutes)).perform(click());
+        onData(equalTo("3")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+
+        onView(withId(R.id.autoCompleteTextViewSeconds)).perform(click());
+        onData(equalTo("25")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+
+
+        onView(withId(R.id.autoCompleteTextViewAlbum)).perform(click());
+        onData(equalTo("Album Nuevo")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+
+        onView(withId(R.id.button_save_track)).perform(click());
+        TimeUnit.SECONDS.sleep(5L)
+
+
+        onView(allOf(withId(R.id.track_name), withText(""), isDisplayed()))
+
+
 
     }
 }
