@@ -118,6 +118,12 @@ class TrackToAlbumFragment : Fragment(), AdapterView.OnItemClickListener {
             if(trackName.text.toString().isBlank()){
                 isValid = false
                 tilTrackName.error = getString(R.string.form_required_field)
+            }else{
+
+                if(trackName.text.toString().length>50){
+                    isValid = false
+                    tilTrackName.error = getString(R.string.form_length_required_field).plus("50")
+                }
             }
             if(autoCompleteTextViewMinutes.text.toString().isBlank()){
                 isValid = false
