@@ -6,26 +6,34 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.appmoviles.R
-import com.example.appmoviles.network.NetworkServiceAdapter
+import com.example.appmoviles.models.Album
+import com.example.appmoviles.viewmodels.AlbumViewModel
 import com.google.android.material.textfield.TextInputEditText
-import org.json.JSONException
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
+import androidx.lifecycle.Observer
 
 
 class AlbumCreationActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
 
+
+    private lateinit var viewModel: AlbumViewModel
     private val calendar = Calendar.getInstance()
     private val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.US)
+    private lateinit var album: Album
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this).get(AlbumViewModel::class.java)
         setContentView(R.layout.activity_album_creation)
         addArraysSpinners()
         createDatePicker()
         createButton()
+
     }
 
     fun addArraysSpinners() {
@@ -114,32 +122,27 @@ class AlbumCreationActivity : AppCompatActivity(), DatePickerDialog.OnDateSetLis
         ) {
             Toast.makeText(this, "Algunos campos no cumplen las condiciones o no fueron registrados.", Toast.LENGTH_LONG).show()
         } else {
-            try {
-                bodyAlbumRequest.put("name", nameTextView.text.toString())
-                bodyAlbumRequest.put("cover", coverTextView.text.toString())
-                bodyAlbumRequest.put("description", descriptionTextView.text.toString())
-                bodyAlbumRequest.put(
-                    "releaseDate", formatterAux.format(calendar.timeInMillis).toString()
-                        .replace(" ", "T")
-                )
-                bodyAlbumRequest.put("genre", genreSpinner.selectedItem.toString())
-                bodyAlbumRequest.put("recordLabel", recordLabelSpinner.selectedItem.toString())
-            } catch (e: JSONException) {
-                e.printStackTrace()
-            }
-            NetworkServiceAdapter.getInstance(application).postAlbum(bodyAlbumRequest,
-                {
-                    onSuccess()
-                },
-                {
-                    onError()
-                }
-            )
+
+            viewModel.addAlbum(nameTextView.text.toString(),coverTextView.text.toString(),descriptionTextView.text.toString(),formatterAux.format(calendar.timeInMillis).toString().replace(" ", "T"),genreSpinner.selectedItem.toString(),recordLabelSpinner.selectedItem.toString())
+
+            viewModel.album.observe(this, Observer<Album> { t ->
+                album = t
+                Log.println(Log.INFO,"Informacion Album",album.albumId.toString())
+                onSuccess()
+            })
+
+            viewModel.eventNetworkError.observe(this, Observer<Boolean> { isNetworkError ->
+                if(isNetworkError)  onError()
+            })
         }
 
     }
 
     private fun onSuccess() {
+        findViewById<TextInputEditText>(R.id.editTextAlbumName).setText("")
+        findViewById<TextInputEditText>(R.id.editTextAlbumCoverage).setText("")
+        findViewById<TextInputEditText>(R.id.editTextAlbumDescription).setText("")
+
         Toast.makeText(this, "Albúm guardado con éxito!", Toast.LENGTH_LONG).show()
     }
 
