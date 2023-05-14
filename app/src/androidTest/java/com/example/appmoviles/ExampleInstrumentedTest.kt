@@ -3,7 +3,6 @@ package com.example.appmoviles
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
@@ -286,6 +285,39 @@ class ExampleInstrumentedTest {
         onView(allOf(withId(R.id.editTextAlbumName), withText(""), isDisplayed()))
         onView(allOf(withId(R.id.editTextAlbumCoverage), withText(""), isDisplayed()))
         onView(allOf(withId(R.id.editTextAlbumDescription), withText(""), isDisplayed()))
+    }
+
+    @Test
+    fun addAlbumEmptyFiledsTest() {
+        val userBtn: ViewInteraction =
+            onView(
+                allOf(
+                    withId(R.id.button_coleccionista),
+                    withText(R.string.label_button_coleccionista),
+                    isDisplayed()
+                )
+            )
+        userBtn.perform(click())
+
+        onView(withId(R.id.drawerLayoutCollector))
+            .check(matches(isClosed(Gravity.LEFT))) // Left Drawer should be closed.
+            .perform(DrawerActions.open()); // Open Drawer
+
+        onView(withId(R.id.create_album)).perform(click());
+        TimeUnit.SECONDS.sleep(1L)
+        val saveAlbumBtn: ViewInteraction =
+            onView(
+                allOf(
+                    withId(R.id.button_save_album),
+                    withText(R.string.label_button_save),
+                    isDisplayed()
+                )
+            )
+        saveAlbumBtn.perform(click())
+        TimeUnit.SECONDS.sleep(1L)
+        onView(withId(R.id.editTextAlbumName)).check(matches(hasErrorText("El campo debe diligenciado y cumplir con las condiciones")));
+        onView(withId(R.id.editTextAlbumCoverage)).check(matches(hasErrorText("El campo debe diligenciado y cumplir con las condiciones")));
+        onView(withId(R.id.editTextAlbumDescription)).check(matches(hasErrorText("El campo debe diligenciado y cumplir con las condiciones")));
     }
 
     private fun forceTypeText(text: String): ViewAction {
