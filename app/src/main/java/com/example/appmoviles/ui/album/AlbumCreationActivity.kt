@@ -99,7 +99,6 @@ class AlbumCreationActivity : AppCompatActivity(), DatePickerDialog.OnDateSetLis
         val releaseDateTextView = findViewById<TextView>(R.id.albumReleaseDate)
         val genreSpinner = findViewById<Spinner>(R.id.genre_spinner)
         val recordLabelSpinner = findViewById<Spinner>(R.id.record_label_spinner)
-        val bodyAlbumRequest = JSONObject()
 
         val formatterAux = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.000Z", Locale.US)
         val defaultReleaseText: String = getString(R.string.album_release_date)
