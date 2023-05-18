@@ -21,5 +21,9 @@
         android:id="@+id/profile_change"
         android:title="@string/profile_change"
         android:icon="@drawable/profile_change"/>
+    <item
+        android:id="@+id/associate_performer_album"
+        android:title="@string/associate_performer_album"
+        android:icon="@drawable/associate_icon"/>
 
 </menu>

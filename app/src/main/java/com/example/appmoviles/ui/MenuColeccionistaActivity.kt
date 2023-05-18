@@ -10,6 +10,7 @@ import com.example.appmoviles.R
 import com.example.appmoviles.ui.album.AlbumCreationActivity
 import com.example.appmoviles.ui.album.AlbumActivity
 import com.example.appmoviles.ui.album.TrackToAlbumActivity
+import com.example.appmoviles.ui.performer.PerformerToAlbumActivity
 import com.google.android.material.navigation.NavigationView
 
 
@@ -31,12 +32,14 @@ class MenuColeccionistaActivity : AppCompatActivity() {
         val intentAlbumCreationActivity = Intent(this, AlbumCreationActivity::class.java)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val intentTrackToAlbum = Intent (this, TrackToAlbumActivity::class.java)
+        val intentPerformerToAlbum = Intent (this,PerformerToAlbumActivity::class.java)
         navViewCollector.setNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.fav_performers -> print("artistas favoritos")
                 R.id.albums_handler -> print("manejar albmes")
                 R.id.create_album -> startActivity(intentAlbumCreationActivity)
                 R.id.associate_track -> startActivity(intentTrackToAlbum)
+                R.id.associate_performer_album -> startActivity(intentPerformerToAlbum)
                 R.id.profile_change -> this.finish()
             }
             true
