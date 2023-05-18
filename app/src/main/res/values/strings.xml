@@ -36,7 +36,7 @@
         <item>Elektra</item>
         <item>Fania Record</item>
     </string-array>
-  
+
     <string name="title_activity_track_to_album">Asociar Track a Álbum</string>
     <string name="hint_track_name">Nombre</string>
     <string name="hint_track_album">Álbum</string>
@@ -45,6 +45,7 @@
     <string name="hint_track_album_minutes">Minutos</string>
     <string name="hint_track_album_seconds">Segundos</string>
     <string name="form_length_required_field">El campo supera la longitud de </string>
+    <string name="associate_performer_album">Asociar Músico a Álbum</string>
 
 
     <string-array name="minutes_array">
@@ -123,5 +124,8 @@
         <item>59</item>
 
     </string-array>
+    <string name="title_activity_performer_to_album">Asociar Músico a Álbum</string>
+    <string name="hint_pa_performer">Artista</string>
+    <string name="hint_pa_album">Álbum</string>
 
 </resources>
