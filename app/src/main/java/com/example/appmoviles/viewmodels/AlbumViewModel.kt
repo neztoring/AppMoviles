@@ -26,8 +26,6 @@ class AlbumViewModel(application: Application): AndroidViewModel(application) {
     val albums: LiveData<List<Album>>
         get() = _albums
 
-
-
     private val _track = MutableLiveData<Track>()
 
     val track: LiveData<Track>
