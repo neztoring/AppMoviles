@@ -1,6 +1,7 @@
 package com.example.appmoviles.network
 
 import android.content.Context
+import android.net.wifi.p2p.WifiP2pManager.DnsSdServiceResponseListener
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
@@ -79,17 +80,17 @@ class NetworkServiceAdapter constructor(context: Context) {
             }))
     }
 
-    fun postAlbum(body: JSONObject, onComplete:(resp:JSONObject)->Unit , onError: (error:VolleyError)->Unit){
+    suspend fun postAlbum(body: JSONObject)= suspendCoroutine<Album>{ cont->
         requestQueue.add(postRequest("albums",
             body,
             Response.Listener<JSONObject> { response ->
-                onComplete(response)
+
+                cont.resume(Album(albumId = response.getInt("id"),name = response.getString("name"), cover = response.getString("cover"), recordLabel = response.getString("recordLabel"), releaseDate = response.getString("releaseDate"), genre = response.getString("genre"), description = response.getString("description")))
             },
             Response.ErrorListener {
-                onError(it)
+                cont.resumeWithException(it)
             }))
     }
-
 
    suspend fun postTrackToAlbum(body: JSONObject, albumId: Int)= suspendCoroutine<Track>{ cont->
         requestQueue.add(postRequest("albums/".plus(albumId).plus("/tracks"),

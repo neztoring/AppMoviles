@@ -33,7 +33,15 @@ class AlbumViewModel(application: Application): AndroidViewModel(application) {
     val track: LiveData<Track>
         get() = _track
 
+
+    private val _album = MutableLiveData<Album>()
+
+    val album: LiveData<Album>
+        get() = _album
+
+
     private var trackJson = JSONObject()
+    private var albumJson = JSONObject()
 
     private var _eventNetworkError = MutableLiveData<Boolean>(false)
 
@@ -76,6 +84,31 @@ class AlbumViewModel(application: Application): AndroidViewModel(application) {
 
                     var data = albumsRepository.trackToAlbum(trackJson,albumId)
                     _track.postValue(data)
+                }
+                _eventNetworkError.postValue(false)
+                _isNetworkErrorShown.postValue(false)
+            }
+        }
+        catch (e:Exception){
+            _eventNetworkError.value = true
+        }
+    }
+
+
+    public fun addAlbum(name:String, cover:String, description:String, releaseDate:String,genre:String,recordLabel:String) {
+        try {
+            viewModelScope.launch(Dispatchers.Default){
+                withContext(Dispatchers.IO){
+                    albumJson= JSONObject()
+                    albumJson.put("name", name)
+                    albumJson.put("cover", cover)
+                    albumJson.put("description",description)
+                    albumJson.put("releaseDate", releaseDate )
+                    albumJson.put("genre", genre)
+                    albumJson.put("recordLabel", recordLabel)
+
+                    var data = albumsRepository.addAlbum(albumJson)
+                    _album.postValue(data)
                 }
                 _eventNetworkError.postValue(false)
                 _isNetworkErrorShown.postValue(false)
