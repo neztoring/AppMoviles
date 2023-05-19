@@ -25,14 +25,16 @@ class PerformerFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: PerformerViewModel
     private var viewModelAdapter: PerformersAdapter? = null
+    private var isFavoriteView = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        isFavoriteView = requireActivity().intent.extras!!.getBoolean("favorites")
         _binding = PerformerFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
-        viewModelAdapter = PerformersAdapter()
+        viewModelAdapter = PerformersAdapter(isFavoriteView)
         return view
     }
 
