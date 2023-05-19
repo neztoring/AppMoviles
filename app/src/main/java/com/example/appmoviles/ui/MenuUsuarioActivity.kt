@@ -30,6 +30,7 @@ class MenuUsuarioActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val intentPerformer = Intent(this, PerformerActivity::class.java)
         val intentAlbum = Intent (this, AlbumActivity::class.java)
+        intentPerformer.putExtra("favorites", false)
         navViewCollector.setNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.performer -> startActivity(intentPerformer)

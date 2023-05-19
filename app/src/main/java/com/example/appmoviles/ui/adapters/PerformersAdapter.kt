@@ -1,6 +1,10 @@
 package com.example.appmoviles.ui.adapters
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
@@ -11,11 +15,13 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.appmoviles.R
 import com.example.appmoviles.databinding.PerformerItemBinding
 import com.example.appmoviles.models.Performer
-import com.squareup.picasso.Picasso
 
-class PerformersAdapter : RecyclerView.Adapter<PerformersAdapter.PerformerViewHolder>(){
 
-    var performers :List<Performer> = emptyList()
+class PerformersAdapter(private val isFavoriteView: Boolean) :
+    RecyclerView.Adapter<PerformersAdapter.PerformerViewHolder>() {
+
+
+    var performers: List<Performer> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -26,20 +32,54 @@ class PerformersAdapter : RecyclerView.Adapter<PerformersAdapter.PerformerViewHo
             LayoutInflater.from(parent.context),
             PerformerViewHolder.LAYOUT,
             parent,
-            false)
+            false
+        )
         return PerformerViewHolder(withDataBinding)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: PerformerViewHolder, position: Int) {
+        var isSelected = false
+        val favoriteUnselected = R.drawable.baseline_star_border_24
+        val favoriteSelected = R.drawable.baseline_star_24
+        var icon = favoriteUnselected
         holder.viewDataBinding.also {
             it.performer = performers[position]
             Glide.with(holder.itemView)
                 .load(performers[position].image).apply(
                     RequestOptions()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL))
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                )
                 .into(holder.viewDataBinding.performerImage)
-            }
+        }
         holder.viewDataBinding.root.setOnClickListener {
+        }
+
+        holder.viewDataBinding.performerName.setOnTouchListener(OnTouchListener { v, event ->
+            val DRAWABLE_RIGHT = 2
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                if (event.rawX >= holder.viewDataBinding.performerName.right - holder.viewDataBinding.performerName.compoundDrawables[DRAWABLE_RIGHT].bounds.width()
+                ) {
+                    isSelected = !isSelected
+                    icon = if (isSelected) favoriteSelected else favoriteUnselected
+                    holder.viewDataBinding.performerName.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        0,
+                        0,
+                        icon,
+                        0
+                    )
+                    return@OnTouchListener true
+                }
+            }
+            false
+        })
+        if (isFavoriteView) {
+            holder.viewDataBinding.performerName.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,
+                0,
+                icon,
+                0
+            )
         }
     }
 
