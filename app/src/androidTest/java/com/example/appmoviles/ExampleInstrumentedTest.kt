@@ -321,6 +321,37 @@ class ExampleInstrumentedTest {
         onView(withId(R.id.editTextAlbumDescription)).check(matches(hasErrorText("El campo debe diligenciado y cumplir con las condiciones")));
     }
 
+    @Test
+    fun addPerformerToAlbumOK() {
+
+        val userBtn: ViewInteraction =
+            onView(
+                allOf(
+                    withId(R.id.button_coleccionista),
+                    withText(R.string.label_button_coleccionista),
+                    isDisplayed()
+                )
+            )
+        userBtn.perform(click())
+
+        onView(withId(R.id.drawerLayoutCollector))
+            .check(matches(isClosed(Gravity.LEFT))) // Left Drawer should be closed.
+            .perform(DrawerActions.open()); // Open Drawer
+
+        onView(withId(R.id.associate_performer_album)).perform(click());
+        TimeUnit.SECONDS.sleep(1L)
+
+        onView(withId(R.id.autoCompleteTextViewPerformer)).perform(click());
+        onData(equalTo("Queen")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+
+        onView(withId(R.id.autoCompleteTextViewAlbum)).perform(click());
+        onData(equalTo("A Night at the Opera")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+
+        onView(withId(R.id.button_save_performer_to_album)).perform(click());
+        TimeUnit.SECONDS.sleep(5L)
+
+    }
+
     private fun forceTypeText(text: String): ViewAction {
         return object : ViewAction {
             override fun getDescription(): String {
