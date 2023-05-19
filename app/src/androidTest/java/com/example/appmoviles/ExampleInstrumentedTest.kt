@@ -120,7 +120,7 @@ class ExampleInstrumentedTest {
         onView(withId(R.id.navViewUser))
             .perform(NavigationViewActions.navigateTo(R.id.performer));
 
-        TimeUnit.SECONDS.sleep(3L)
+        TimeUnit.SECONDS.sleep(2L)
         onView(withId(R.id.fragments_rv))
             .perform(RecyclerViewActions.actionOnItemAtPosition<ViewHolder>(0, click()))
     }
