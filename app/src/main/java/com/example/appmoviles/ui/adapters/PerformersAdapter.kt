@@ -75,6 +75,7 @@ class PerformersAdapter(private val isFavoriteView: Boolean) :
                         icon,
                         0
                     )
+
                     return@OnTouchListener true
                 }
             }
