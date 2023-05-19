@@ -120,6 +120,25 @@ class ExampleInstrumentedTest {
     }
 
     @Test
+    fun navigatePerformerDetail() {
+
+        val userBtn: ViewInteraction =
+            onView(allOf(withId(R.id.button_usuario), withText("Soy un Usuario"), isDisplayed()))
+        userBtn.perform(click())
+
+        onView(withId(R.id.drawerLayoutUser))
+            .check(matches(isClosed(Gravity.LEFT))) // Left Drawer should be closed.
+            .perform(DrawerActions.open()); // Open Drawer
+
+        onView(withId(R.id.navViewUser))
+            .perform(NavigationViewActions.navigateTo(R.id.performer));
+
+        TimeUnit.SECONDS.sleep(2L)
+        onView(withId(R.id.fragments_rv))
+            .perform(RecyclerViewActions.actionOnItemAtPosition<ViewHolder>(0, click()))
+    }
+
+    @Test
     fun navigateCollectorMenu() {
 
         val userBtn: ViewInteraction =
