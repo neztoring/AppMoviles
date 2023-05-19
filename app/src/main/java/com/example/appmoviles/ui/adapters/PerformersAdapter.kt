@@ -1,6 +1,7 @@
 package com.example.appmoviles.ui.adapters
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -15,6 +16,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.appmoviles.R
 import com.example.appmoviles.databinding.PerformerItemBinding
 import com.example.appmoviles.models.Performer
+import com.example.appmoviles.ui.performer.PerformerDetailActivity
 
 
 class PerformersAdapter(private val isFavoriteView: Boolean) :
@@ -48,11 +50,16 @@ class PerformersAdapter(private val isFavoriteView: Boolean) :
             Glide.with(holder.itemView)
                 .load(performers[position].image).apply(
                     RequestOptions()
+                        .placeholder(R.drawable.loading_animation)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
-                )
+                        .error(R.drawable.ic_broken_image
+                ))
                 .into(holder.viewDataBinding.performerImage)
         }
-        holder.viewDataBinding.root.setOnClickListener {
+        holder.viewDataBinding.root.setOnClickListener {v ->
+            val intent = Intent(v.context, PerformerDetailActivity::class.java)
+            intent.putExtra("performerDetail", performers[position])
+            v.context.startActivity(intent)
         }
 
         holder.viewDataBinding.performerName.setOnTouchListener(OnTouchListener { v, event ->
