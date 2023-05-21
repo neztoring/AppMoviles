@@ -52,36 +52,38 @@ class PerformersAdapter(private val isFavoriteView: Boolean) :
                     RequestOptions()
                         .placeholder(R.drawable.loading_animation)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .error(R.drawable.ic_broken_image
-                ))
+                        .error(
+                            R.drawable.ic_broken_image
+                        )
+                )
                 .into(holder.viewDataBinding.performerImage)
         }
-        holder.viewDataBinding.root.setOnClickListener {v ->
+        holder.viewDataBinding.root.setOnClickListener { v ->
             val intent = Intent(v.context, PerformerDetailActivity::class.java)
             intent.putExtra("performerDetail", performers[position])
             v.context.startActivity(intent)
         }
-
-        holder.viewDataBinding.performerName.setOnTouchListener(OnTouchListener { v, event ->
-            val DRAWABLE_RIGHT = 2
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                if (event.rawX >= holder.viewDataBinding.performerName.right - holder.viewDataBinding.performerName.compoundDrawables[DRAWABLE_RIGHT].bounds.width()
-                ) {
-                    isSelected = !isSelected
-                    icon = if (isSelected) favoriteSelected else favoriteUnselected
-                    holder.viewDataBinding.performerName.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                        0,
-                        0,
-                        icon,
-                        0
-                    )
-
-                    return@OnTouchListener true
-                }
-            }
-            false
-        })
         if (isFavoriteView) {
+            holder.viewDataBinding.performerName.setOnTouchListener(OnTouchListener { v, event ->
+                val DRAWABLE_RIGHT = 2
+                if (event.action == MotionEvent.ACTION_DOWN) {
+                    if (event.rawX >= holder.viewDataBinding.performerName.right - holder.viewDataBinding.performerName.compoundDrawables[DRAWABLE_RIGHT].bounds.width()
+                    ) {
+                        isSelected = !isSelected
+                        icon = if (isSelected) favoriteSelected else favoriteUnselected
+                        holder.viewDataBinding.performerName.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                            0,
+                            0,
+                            icon,
+                            0
+                        )
+
+                        return@OnTouchListener true
+                    }
+                }
+                false
+            })
+
             holder.viewDataBinding.performerName.setCompoundDrawablesRelativeWithIntrinsicBounds(
                 0,
                 0,
