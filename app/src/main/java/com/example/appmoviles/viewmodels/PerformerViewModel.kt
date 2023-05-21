@@ -8,12 +8,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.appmoviles.models.Performer
-import com.example.appmoviles.network.NetworkServiceAdapter
-import com.example.appmoviles.repositories.AlbumRepository
 import com.example.appmoviles.repositories.PerformerRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONArray
+import org.json.JSONObject
 
 class PerformerViewModel(application: Application) :  AndroidViewModel(application) {
 
@@ -23,6 +23,12 @@ class PerformerViewModel(application: Application) :  AndroidViewModel(applicati
 
     val performers: LiveData<List<Performer>>
         get() = _performers
+
+    val performer: LiveData<Performer>
+        get() = _performer
+
+    private var albumJson = JSONObject()
+    private val _performer = MutableLiveData<Performer>()
 
     private var _eventNetworkError = MutableLiveData<Boolean>(false)
 
@@ -53,6 +59,26 @@ class PerformerViewModel(application: Application) :  AndroidViewModel(applicati
             _eventNetworkError.value = true
         }
 
+    }
+
+    public fun addTrackToAlbum(albumId:Int, performerId: Int) {
+        try {
+            viewModelScope.launch(Dispatchers.Default){
+                withContext(Dispatchers.IO){
+                    albumJson = JSONObject()
+                    albumJson.put("id",albumId)
+                    var arrayAlbum = JSONArray()
+                    arrayAlbum.put(albumJson)
+                    var data = performesRepository.albumToPerformer(arrayAlbum,performerId)
+                    _performer.postValue(data)
+                }
+                _eventNetworkError.postValue(false)
+                _isNetworkErrorShown.postValue(false)
+            }
+        }
+        catch (e:Exception){
+            _eventNetworkError.value = true
+        }
     }
 
     fun onNetworkErrorShown() {

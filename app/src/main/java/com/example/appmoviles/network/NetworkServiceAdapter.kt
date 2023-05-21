@@ -1,11 +1,9 @@
 package com.example.appmoviles.network
 
 import android.content.Context
-import android.net.wifi.p2p.WifiP2pManager.DnsSdServiceResponseListener
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
-import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -102,6 +100,22 @@ class NetworkServiceAdapter constructor(context: Context) {
                 cont.resumeWithException(it)
             }))
     }
+
+    suspend fun putPerformerToAlbum(body: JSONArray, performerId: Int) = suspendCoroutine<Performer>{ cont ->
+        requestQueue.add(putArrayRequest("musicians/".plus(performerId).plus("/albums"),
+            body,
+            Response.Listener<JSONObject> { response ->
+                cont.resume(Performer(
+                    response.getInt("id"), response.getString("name"),
+                    response.getString("image"), response.getString("description"),
+                    response.getString("birthDate"), "", "", 0)
+                )
+            },
+            Response.ErrorListener {
+                cont.resumeWithException(it)
+            }
+        ))
+    }
         
     private fun getRequest(path: String, responseListener: Response.Listener<String>, errorListener: Response.ErrorListener): StringRequest {
         return StringRequest(Request.Method.GET, BASE_URL+path, responseListener, errorListener)
@@ -109,6 +123,10 @@ class NetworkServiceAdapter constructor(context: Context) {
 
     private fun postRequest(path: String, body: JSONObject, responseListener: Response.Listener<JSONObject>, errorListener: Response.ErrorListener ): JsonObjectRequest {
         return  JsonObjectRequest(Request.Method.POST, BASE_URL+path, body, responseListener, errorListener)
+    }
+
+    private fun putArrayRequest(path: String, body: JSONArray, responseListener: Response.Listener<JSONObject>, errorListener: Response.ErrorListener): CustomJsonRequest {
+        return CustomJsonRequest(Request.Method.PUT, BASE_URL + path, body, responseListener, errorListener)
     }
 
 

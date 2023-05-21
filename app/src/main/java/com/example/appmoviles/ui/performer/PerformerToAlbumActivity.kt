@@ -27,6 +27,8 @@ class PerformerToAlbumActivity : AppCompatActivity() {
     private lateinit var albumes: List<Album>
     private lateinit var albumesNames:  ArrayList<String>
 
+    private lateinit var performer: Performer
+
 
     private var positionAlbumSelected = -1
     private var positionPerformerSelected = -1
@@ -67,18 +69,30 @@ class PerformerToAlbumActivity : AppCompatActivity() {
     private fun savePerformerToAlbum() {
 
         if(validateForm()) {
-            Toast.makeText(
-                this,
-                "AlbumId Selected :".plus(
-                    albumes.get(positionAlbumSelected).albumId.toString()
-                        .plus(" ArtistId Selected : ".plus(performers.get(positionPerformerSelected).performerId.toString()))
-                ),
-                Toast.LENGTH_LONG
-            ).show()
+            var performId : Int = performers.get(positionPerformerSelected).performerId
+            var albumId : Int = albumes.get(positionAlbumSelected).albumId
+            viewModelPerformer.addTrackToAlbum(albumId, performId)
+
+            viewModelPerformer.performer.observe(this, Observer<Performer> {t ->
+                performer = t
+                Toast.makeText(
+                    this,
+                    "Álbum asociado exitosamente al artista ",
+                    Toast.LENGTH_LONG
+                ).show()
+            })
+
+            viewModelPerformer.eventNetworkError.observe(this, Observer<Boolean> { isNetworkError ->
+                if(isNetworkError)  onError()
+            })
+
+
 
             clearForm()
         }
-
+    }
+    private fun onError() {
+        Toast.makeText(this, "Error al asociar el músico con el álbum", Toast.LENGTH_LONG).show()
     }
 
 
