@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/description_performer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="18sp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dp"/>
+
+        <ImageView
+            android:id="@+id/image_performer"
+            android:layout_width="match_parent"
+            android:layout_height="331dp"
+            android:layout_below="@id/description_performer"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dp"
+            />
+
+        <TextView
+            android:id="@+id/birthday_label"
+            android:layout_width="125dp"
+            android:layout_height="27dp"
+            android:text="Nacimiento: "
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_below="@id/image_performer"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dp"
+            />
+
+        <TextView
+            android:id="@+id/birthday"
+            android:layout_width="254dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image_performer"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/birthday_label"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+</ScrollView>

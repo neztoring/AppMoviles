@@ -107,6 +107,25 @@ class ExampleInstrumentedTest {
     }
 
     @Test
+    fun navigatePerformerDetail() {
+
+        val userBtn: ViewInteraction =
+            onView(allOf(withId(R.id.button_usuario), withText("Soy un Usuario"), isDisplayed()))
+        userBtn.perform(click())
+
+        onView(withId(R.id.drawerLayoutUser))
+            .check(matches(isClosed(Gravity.LEFT))) // Left Drawer should be closed.
+            .perform(DrawerActions.open()); // Open Drawer
+
+        onView(withId(R.id.navViewUser))
+            .perform(NavigationViewActions.navigateTo(R.id.performer));
+
+        TimeUnit.SECONDS.sleep(2L)
+        onView(withId(R.id.fragments_rv))
+            .perform(RecyclerViewActions.actionOnItemAtPosition<ViewHolder>(0, click()))
+    }
+
+    @Test
     fun navigateCollectorMenu() {
 
         val userBtn: ViewInteraction =
@@ -319,6 +338,37 @@ class ExampleInstrumentedTest {
         onView(withId(R.id.editTextAlbumName)).check(matches(hasErrorText("El campo debe diligenciado y cumplir con las condiciones")));
         onView(withId(R.id.editTextAlbumCoverage)).check(matches(hasErrorText("El campo debe diligenciado y cumplir con las condiciones")));
         onView(withId(R.id.editTextAlbumDescription)).check(matches(hasErrorText("El campo debe diligenciado y cumplir con las condiciones")));
+    }
+
+    @Test
+    fun addPerformerToAlbumOK() {
+
+        val userBtn: ViewInteraction =
+            onView(
+                allOf(
+                    withId(R.id.button_coleccionista),
+                    withText(R.string.label_button_coleccionista),
+                    isDisplayed()
+                )
+            )
+        userBtn.perform(click())
+
+        onView(withId(R.id.drawerLayoutCollector))
+            .check(matches(isClosed(Gravity.LEFT))) // Left Drawer should be closed.
+            .perform(DrawerActions.open()); // Open Drawer
+
+        onView(withId(R.id.associate_performer_album)).perform(click());
+        TimeUnit.SECONDS.sleep(1L)
+
+        onView(withId(R.id.autoCompleteTextViewPerformer)).perform(click());
+        onData(equalTo("Queen")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+
+        onView(withId(R.id.autoCompleteTextViewAlbum)).perform(click());
+        onData(equalTo("A Night at the Opera")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+
+        onView(withId(R.id.button_save_performer_to_album)).perform(click());
+        TimeUnit.SECONDS.sleep(5L)
+
     }
 
     private fun forceTypeText(text: String): ViewAction {
