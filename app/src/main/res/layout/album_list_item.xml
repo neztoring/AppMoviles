@@ -21,7 +21,8 @@
             app:layout_constraintEnd_toStartOf="@+id/text_list_album"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/album" />
+            app:srcCompat="@drawable/album"
+            android:contentDescription="@string/cd_image_list_album"/>
 
         <TextView
             android:id="@+id/text_list_album"

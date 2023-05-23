@@ -3,7 +3,7 @@
     <string name="label_button_usuario">Soy un Usuario</string>
     <string name="title_menu_usuario">Usuario Visitante</string>
     <string name="label_button_coleccionista">Soy un Coleccionista</string>
-    <string name="title_menu_coleccionista">Coleccionista</string>
+    <string name="title_menu_coleccionista">Usuario Coleccionista</string>
     <string name="title_album">Álbumes</string>
     <string name="placeholder_album_name">Nombre del album</string>
     <string name="placeholder_album_description">Descripcion del album</string>
@@ -127,5 +127,12 @@
     <string name="title_activity_performer_to_album">Asociar Músico a Álbum</string>
     <string name="hint_pa_performer">Artista</string>
     <string name="hint_pa_album">Álbum</string>
+    <string name="cd_image_album">Imagen de la portada del álbum</string>
+    <string name="cd_image_performer">Imagen del Artista</string>
+    <string name="cd_image_list_album">Imagen de la portada del álbum</string>
+    <string name="cd_image_collector">Imagen de un coleccionista</string>
+    <string name="cd_image_user">Imagen de usuario visitante</string>
+    <string name="text_menu_usuario">Usuario</string>
+    <string name="text_menu_coleccionista">Coleccionista</string>
 
 </resources>
