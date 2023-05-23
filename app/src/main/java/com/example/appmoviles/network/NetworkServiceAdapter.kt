@@ -125,12 +125,27 @@ class NetworkServiceAdapter constructor(context: Context) {
         return  JsonObjectRequest(Request.Method.POST, BASE_URL+path, body, responseListener, errorListener)
     }
 
+    private fun deleteRequest(path: String, body: JSONObject, responseListener: Response.Listener<JSONObject>, errorListener: Response.ErrorListener ): JsonObjectRequest {
+        return  JsonObjectRequest(Request.Method.DELETE, BASE_URL+path, body, responseListener, errorListener)
+    }
+
     private fun putArrayRequest(path: String, body: JSONArray, responseListener: Response.Listener<JSONObject>, errorListener: Response.ErrorListener): CustomJsonRequest {
         return CustomJsonRequest(Request.Method.PUT, BASE_URL + path, body, responseListener, errorListener)
     }
 
     suspend fun postFavoritePerformer(body: JSONObject, collectorId: Int, performerId: Int)= suspendCoroutine<Any>{ cont->
         requestQueue.add(postRequest("collectors/$collectorId/musicians/$performerId",
+            body,
+            Response.Listener<JSONObject> { response ->
+                cont.resume(response)
+            },
+            Response.ErrorListener {
+                cont.resumeWithException(it)
+            }))
+    }
+
+    suspend fun removeFavoritePerformer(body: JSONObject, collectorId: Int, performerId: Int)= suspendCoroutine<Any>{ cont->
+        requestQueue.add(deleteRequest("collectors/$collectorId/musicians/$performerId",
             body,
             Response.Listener<JSONObject> { response ->
                 cont.resume(response)

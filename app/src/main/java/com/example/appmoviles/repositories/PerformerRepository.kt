@@ -20,6 +20,10 @@ class PerformerRepository (val application: Application){
         return NetworkServiceAdapter.getInstance(application).postFavoritePerformer(body, collectorId, performerId)
     }
 
+    suspend fun removeFavoritePerformer(body: JSONObject, collectorId: Int, performerId: Int): Any {
+        return NetworkServiceAdapter.getInstance(application).removeFavoritePerformer(body, collectorId, performerId)
+    }
+
     suspend fun getPerformersByCollector(collectorId: Int): List<Performer> {
         return NetworkServiceAdapter.getInstance(application).getFavoritePerformer(collectorId)
     }

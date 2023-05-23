@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.appmoviles.models.Album
 import com.example.appmoviles.models.Performer
 import com.example.appmoviles.repositories.PerformerRepository
 import kotlinx.coroutines.Dispatchers
@@ -43,6 +44,11 @@ class PerformerViewModel(application: Application) :  AndroidViewModel(applicati
 
     val isNetworkErrorShown: LiveData<Boolean>
         get() = _isNetworkErrorShown
+
+    private val _performersAdded = MutableLiveData<Any>()
+
+    val performersAdded: LiveData<Any>
+        get() = _performersAdded
 
     init {
         refreshDataFromNetwork()
@@ -93,6 +99,40 @@ class PerformerViewModel(application: Application) :  AndroidViewModel(applicati
                     arrayAlbum.put(albumJson)
                     var data = performesRepository.albumToPerformer(arrayAlbum,performerId)
                     _performer.postValue(data)
+                }
+                _eventNetworkError.postValue(false)
+                _isNetworkErrorShown.postValue(false)
+            }
+        }
+        catch (e:Exception){
+            _eventNetworkError.value = true
+        }
+    }
+
+    fun addFavoritePerformer(collectorId: Int, performerId: Int) {
+        try {
+            viewModelScope.launch(Dispatchers.Default){
+                withContext(Dispatchers.IO){
+                    val favoriteJson= JSONObject()
+                    var data = performesRepository.saveFavoritePerformer(favoriteJson, collectorId, performerId)
+                    _performersAdded.postValue(data)
+                }
+                _eventNetworkError.postValue(false)
+                _isNetworkErrorShown.postValue(false)
+            }
+        }
+        catch (e:Exception){
+            _eventNetworkError.value = true
+        }
+    }
+
+    fun removeFavoritePerformer(collectorId: Int, performerId: Int) {
+        try {
+            viewModelScope.launch(Dispatchers.Default){
+                withContext(Dispatchers.IO){
+                    val favoriteJson= JSONObject()
+                    var data = performesRepository.removeFavoritePerformer(favoriteJson, collectorId, performerId)
+                    _performersAdded.postValue(data)
                 }
                 _eventNetworkError.postValue(false)
                 _isNetworkErrorShown.postValue(false)

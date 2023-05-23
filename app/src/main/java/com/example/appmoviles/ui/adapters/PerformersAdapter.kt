@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View.OnTouchListener
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +20,11 @@ import com.example.appmoviles.models.Performer
 import com.example.appmoviles.ui.performer.PerformerDetailActivity
 
 
-class PerformersAdapter(private val isFavoriteView: Boolean) :
+class PerformersAdapter(
+    private val isFavoriteView: Boolean,
+    private val addToFavorites: (performerId: Int) -> Unit,
+    private val removeFavoritePerformer: (performerId: Int) -> Unit
+) :
     RecyclerView.Adapter<PerformersAdapter.PerformerViewHolder>() {
 
 
@@ -70,15 +75,22 @@ class PerformersAdapter(private val isFavoriteView: Boolean) :
             val favoriteUnselected = R.drawable.baseline_star_border_24
             val favoriteSelected = R.drawable.baseline_star_24
             var icon = favoriteUnselected
-            val found = favoritePerformers.firstOrNull { it.performerId == holder.viewDataBinding.performer?.performerId } != null
+            val found =
+                favoritePerformers.firstOrNull { it.performerId == holder.viewDataBinding.performer?.performerId } != null
             if (found) {
                 icon = favoriteSelected
+                isSelected = true
             }
             holder.viewDataBinding.performerName.setOnTouchListener(OnTouchListener { v, event ->
                 val DRAWABLE_RIGHT = 2
                 if (event.action == MotionEvent.ACTION_DOWN) {
                     if (event.rawX >= holder.viewDataBinding.performerName.right - holder.viewDataBinding.performerName.compoundDrawables[DRAWABLE_RIGHT].bounds.width()
                     ) {
+                        if (!isSelected) {
+                            holder.viewDataBinding.performer?.performerId?.let { addToFavorites(it) }
+                        } else {
+                            //holder.viewDataBinding.performer?.performerId?.let { removeFavoritePerformer(it) }
+                        }
                         isSelected = !isSelected
                         icon = if (isSelected) favoriteSelected else favoriteUnselected
                         holder.viewDataBinding.performerName.setCompoundDrawablesRelativeWithIntrinsicBounds(
