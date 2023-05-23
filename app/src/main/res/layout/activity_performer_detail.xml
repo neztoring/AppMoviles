@@ -29,6 +29,7 @@
             android:layout_below="@id/description_performer"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="10dp"
+            android:contentDescription="@string/cd_image_performer"
             />
 
         <TextView
