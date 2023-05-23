@@ -56,6 +56,11 @@ class PerformerFragment : Fragment() {
                 viewModelAdapter!!.performers = this
             }
         })
+        viewModel.favoritePerformers.observe(viewLifecycleOwner, Observer<List<Performer>> {
+            it.apply {
+                viewModelAdapter!!.favoritePerformers = this
+            }
+        })
         viewModel.eventNetworkError.observe(viewLifecycleOwner, Observer<Boolean> { isNetworkError ->
             if (isNetworkError) onNetworkError()
         })

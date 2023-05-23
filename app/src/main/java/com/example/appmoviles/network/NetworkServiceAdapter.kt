@@ -129,5 +129,32 @@ class NetworkServiceAdapter constructor(context: Context) {
         return CustomJsonRequest(Request.Method.PUT, BASE_URL + path, body, responseListener, errorListener)
     }
 
+    suspend fun postFavoritePerformer(body: JSONObject, collectorId: Int, performerId: Int)= suspendCoroutine<Any>{ cont->
+        requestQueue.add(postRequest("collectors/$collectorId/musicians/$performerId",
+            body,
+            Response.Listener<JSONObject> { response ->
+                cont.resume(response)
+            },
+            Response.ErrorListener {
+                cont.resumeWithException(it)
+            }))
+    }
+
+    suspend fun getFavoritePerformer( collectorId: Int)= suspendCoroutine<List<Performer>>{ cont->
+        requestQueue.add(getRequest("collectors/$collectorId/performers",
+            Response.Listener<String> { response ->
+                val resp = JSONArray(response)
+                val list = mutableListOf<Performer>()
+                for (i in 0 until resp.length()) {
+                    val item = resp.getJSONObject(i)
+                    list.add(i, Performer(performerId = item.getInt("id"),name = if (item.has("name")) item.getString("name") else "", image = if (item.has("image")) item.getString("image") else "", description = if (item.has("description")) item.getString("description") else "", birthDate = if (item.has("birthDate")) item.getString("birthDate") else "", creationDate = if (item.has("creationDate")) item.getString("creationDate") else "", type = if (item.has("type")) item.getString("type") else "", bandId = if (item.has("bandId")) item.getInt("bandId") else 0))
+                }
+                cont.resume(list.sortedBy { it.name })
+            },
+            Response.ErrorListener {
+                cont.resumeWithException(it)
+            }))
+    }
+
 
 }

@@ -29,6 +29,12 @@ class PerformersAdapter(private val isFavoriteView: Boolean) :
             notifyDataSetChanged()
         }
 
+    var favoritePerformers: List<Performer> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PerformerViewHolder {
         val withDataBinding: PerformerItemBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
@@ -41,10 +47,6 @@ class PerformersAdapter(private val isFavoriteView: Boolean) :
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: PerformerViewHolder, position: Int) {
-        var isSelected = false
-        val favoriteUnselected = R.drawable.baseline_star_border_24
-        val favoriteSelected = R.drawable.baseline_star_24
-        var icon = favoriteUnselected
         holder.viewDataBinding.also {
             it.performer = performers[position]
             Glide.with(holder.itemView)
@@ -64,6 +66,14 @@ class PerformersAdapter(private val isFavoriteView: Boolean) :
             v.context.startActivity(intent)
         }
         if (isFavoriteView) {
+            var isSelected = false
+            val favoriteUnselected = R.drawable.baseline_star_border_24
+            val favoriteSelected = R.drawable.baseline_star_24
+            var icon = favoriteUnselected
+            val found = favoritePerformers.firstOrNull { it.performerId == holder.viewDataBinding.performer?.performerId } != null
+            if (found) {
+                icon = favoriteSelected
+            }
             holder.viewDataBinding.performerName.setOnTouchListener(OnTouchListener { v, event ->
                 val DRAWABLE_RIGHT = 2
                 if (event.action == MotionEvent.ACTION_DOWN) {

@@ -20,9 +20,13 @@ class PerformerViewModel(application: Application) :  AndroidViewModel(applicati
 
     private val performesRepository = PerformerRepository(application)
     private val _performers = MutableLiveData<List<Performer>>()
+    private val _favoritePerformers = MutableLiveData<List<Performer>>()
 
     val performers: LiveData<List<Performer>>
         get() = _performers
+
+    val favoritePerformers: LiveData<List<Performer>>
+        get() = _favoritePerformers
 
     val performer: LiveData<Performer>
         get() = _performer
@@ -42,6 +46,7 @@ class PerformerViewModel(application: Application) :  AndroidViewModel(applicati
 
     init {
         refreshDataFromNetwork()
+        getFavoritePerformers()
     }
 
     private fun refreshDataFromNetwork() {
@@ -50,6 +55,23 @@ class PerformerViewModel(application: Application) :  AndroidViewModel(applicati
                 withContext(Dispatchers.IO){
                     var data = performesRepository.refreshData()
                     _performers.postValue(data)
+                }
+                _eventNetworkError.postValue(false)
+                _isNetworkErrorShown.postValue(false)
+            }
+        }
+        catch (e:Exception){
+            _eventNetworkError.value = true
+        }
+
+    }
+
+    private fun getFavoritePerformers() {
+        try {
+            viewModelScope.launch(Dispatchers.Default){
+                withContext(Dispatchers.IO){
+                    var data = performesRepository.getPerformersByCollector(100)
+                    _favoritePerformers.postValue(data)
                 }
                 _eventNetworkError.postValue(false)
                 _isNetworkErrorShown.postValue(false)
