@@ -34,7 +34,7 @@ class PerformerFragment : Fragment() {
         isFavoriteView = requireActivity().intent.extras!!.getBoolean("favorites")
         _binding = PerformerFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
-        viewModelAdapter = PerformersAdapter(isFavoriteView)
+        viewModelAdapter = PerformersAdapter(isFavoriteView, ::addFavoritePerformer, ::removeFavoritePerformer)
         return view
     }
 
@@ -56,10 +56,40 @@ class PerformerFragment : Fragment() {
                 viewModelAdapter!!.performers = this
             }
         })
+        viewModel.favoritePerformers.observe(viewLifecycleOwner, Observer<List<Performer>> {
+            it.apply {
+                viewModelAdapter!!.favoritePerformers = this
+            }
+        })
         viewModel.eventNetworkError.observe(viewLifecycleOwner, Observer<Boolean> { isNetworkError ->
             if (isNetworkError) onNetworkError()
         })
     }
+
+    fun addFavoritePerformer(performerId: Int) {
+        viewModel.addFavoritePerformer(100, performerId)
+
+        viewModel.performersAdded.observe(this, Observer<Any> { t ->
+            Toast.makeText(requireActivity(), "Agregado a favoritos!", Toast.LENGTH_LONG).show()
+        })
+
+        viewModel.eventNetworkError.observe(this, Observer<Boolean> { isNetworkError ->
+            if(isNetworkError)  Toast.makeText(requireActivity(), "No es posible agregar a favoritos!", Toast.LENGTH_LONG).show()
+        })
+    }
+
+    fun removeFavoritePerformer(performerId: Int) {
+        viewModel.removeFavoritePerformer(100, performerId)
+
+        viewModel.performersAdded.observe(this, Observer<Any> { t ->
+            Toast.makeText(requireActivity(), "Se removio de favoritos!", Toast.LENGTH_LONG).show()
+        })
+
+        viewModel.eventNetworkError.observe(this, Observer<Boolean> { isNetworkError ->
+            if(isNetworkError)  Toast.makeText(requireActivity(), "No es posible remover de favoritos!", Toast.LENGTH_LONG).show()
+        })
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

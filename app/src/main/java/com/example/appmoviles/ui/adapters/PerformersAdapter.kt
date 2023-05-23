@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View.OnTouchListener
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -19,11 +20,21 @@ import com.example.appmoviles.models.Performer
 import com.example.appmoviles.ui.performer.PerformerDetailActivity
 
 
-class PerformersAdapter(private val isFavoriteView: Boolean) :
+class PerformersAdapter(
+    private val isFavoriteView: Boolean,
+    private val addToFavorites: (performerId: Int) -> Unit,
+    private val removeFavoritePerformer: (performerId: Int) -> Unit
+) :
     RecyclerView.Adapter<PerformersAdapter.PerformerViewHolder>() {
 
 
     var performers: List<Performer> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
+    var favoritePerformers: List<Performer> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -41,10 +52,6 @@ class PerformersAdapter(private val isFavoriteView: Boolean) :
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: PerformerViewHolder, position: Int) {
-        var isSelected = false
-        val favoriteUnselected = R.drawable.baseline_star_border_24
-        val favoriteSelected = R.drawable.baseline_star_24
-        var icon = favoriteUnselected
         holder.viewDataBinding.also {
             it.performer = performers[position]
             Glide.with(holder.itemView)
@@ -64,11 +71,26 @@ class PerformersAdapter(private val isFavoriteView: Boolean) :
             v.context.startActivity(intent)
         }
         if (isFavoriteView) {
+            var isSelected = false
+            val favoriteUnselected = R.drawable.baseline_star_border_24
+            val favoriteSelected = R.drawable.baseline_star_24
+            var icon = favoriteUnselected
+            val found =
+                favoritePerformers.firstOrNull { it.performerId == holder.viewDataBinding.performer?.performerId } != null
+            if (found) {
+                icon = favoriteSelected
+                isSelected = true
+            }
             holder.viewDataBinding.performerName.setOnTouchListener(OnTouchListener { v, event ->
                 val DRAWABLE_RIGHT = 2
                 if (event.action == MotionEvent.ACTION_DOWN) {
                     if (event.rawX >= holder.viewDataBinding.performerName.right - holder.viewDataBinding.performerName.compoundDrawables[DRAWABLE_RIGHT].bounds.width()
                     ) {
+                        if (!isSelected) {
+                            holder.viewDataBinding.performer?.performerId?.let { addToFavorites(it) }
+                        } else {
+                            //holder.viewDataBinding.performer?.performerId?.let { removeFavoritePerformer(it) }
+                        }
                         isSelected = !isSelected
                         icon = if (isSelected) favoriteSelected else favoriteUnselected
                         holder.viewDataBinding.performerName.setCompoundDrawablesRelativeWithIntrinsicBounds(
