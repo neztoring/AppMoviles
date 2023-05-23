@@ -9,6 +9,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.ViewInteraction
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.DrawerActions
@@ -16,6 +17,7 @@ import androidx.test.espresso.contrib.DrawerMatchers.isClosed
 import androidx.test.espresso.contrib.NavigationViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.RootMatchers
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -215,6 +217,8 @@ class ExampleInstrumentedTest {
         onView(withId(R.id.autoCompleteTextViewSeconds)).perform(click());
         onData(equalTo("25")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
 
+        onView(ViewMatchers.isRoot()).perform(ViewActions.closeSoftKeyboard())
+
         onView(withId(R.id.button_save_track)).perform(click());
         TimeUnit.SECONDS.sleep(2L)
 
@@ -261,6 +265,8 @@ class ExampleInstrumentedTest {
         onView(withId(R.id.autoCompleteTextViewAlbum)).perform(click());
         onData(equalTo("Album Nuevo")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
 
+        onView(ViewMatchers.isRoot()).perform(ViewActions.closeSoftKeyboard())
+        TimeUnit.SECONDS.sleep(1L)
         onView(withId(R.id.button_save_track)).perform(click());
         TimeUnit.SECONDS.sleep(5L)
 
@@ -300,6 +306,7 @@ class ExampleInstrumentedTest {
                     isDisplayed()
                 )
             )
+        onView(ViewMatchers.isRoot()).perform(ViewActions.closeSoftKeyboard())
         saveAlbumBtn.perform(click())
         TimeUnit.SECONDS.sleep(1L)
         onView(allOf(withId(R.id.editTextAlbumName), withText(""), isDisplayed()))
@@ -370,6 +377,27 @@ class ExampleInstrumentedTest {
         TimeUnit.SECONDS.sleep(5L)
 
     }
+
+
+    @Test
+    fun navigateDetailListPerformers() {
+        val userBtn: ViewInteraction =
+            onView(allOf(withId(R.id.button_usuario), withText("Soy un Usuario"), isDisplayed()))
+        userBtn.perform(click())
+
+        onView(withId(R.id.drawerLayoutUser))
+            .check(matches(isClosed(Gravity.LEFT))) // Left Drawer should be closed.
+            .perform(DrawerActions.open()); // Open Drawer
+
+        onView(withId(R.id.navViewUser))
+            .perform(NavigationViewActions.navigateTo(R.id.performer));
+
+        TimeUnit.SECONDS.sleep(2L)
+        onView(withId(R.id.fragments_rv))
+            .perform(RecyclerViewActions.actionOnItemAtPosition<ViewHolder>(0, click()))
+    }
+
+
 
     private fun forceTypeText(text: String): ViewAction {
         return object : ViewAction {
