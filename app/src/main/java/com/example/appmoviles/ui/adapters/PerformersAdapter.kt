@@ -89,7 +89,7 @@ class PerformersAdapter(
                         if (!isSelected) {
                             holder.viewDataBinding.performer?.performerId?.let { addToFavorites(it) }
                         } else {
-                            //holder.viewDataBinding.performer?.performerId?.let { removeFavoritePerformer(it) }
+                            holder.viewDataBinding.performer?.performerId?.let { removeFavoritePerformer(it) }
                         }
                         isSelected = !isSelected
                         icon = if (isSelected) favoriteSelected else favoriteUnselected

@@ -82,11 +82,11 @@ class PerformerFragment : Fragment() {
         viewModel.removeFavoritePerformer(100, performerId)
 
         viewModel.performersAdded.observe(this, Observer<Any> { t ->
-            Toast.makeText(requireActivity(), "Se removio de favoritos!", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireActivity(), "Se removio de favoritos!", Toast.LENGTH_SHORT).show()
         })
 
         viewModel.eventNetworkError.observe(this, Observer<Boolean> { isNetworkError ->
-            if(isNetworkError)  Toast.makeText(requireActivity(), "No es posible remover de favoritos!", Toast.LENGTH_LONG).show()
+            if(isNetworkError)  Toast.makeText(requireActivity(), "No es posible remover de favoritos!", Toast.LENGTH_SHORT).show()
         })
     }
 

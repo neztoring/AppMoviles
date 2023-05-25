@@ -7,9 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.appmoviles.models.Album
 import com.example.appmoviles.models.Performer
 import com.example.appmoviles.repositories.PerformerRepository
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -128,7 +128,7 @@ class PerformerViewModel(application: Application) :  AndroidViewModel(applicati
 
     fun removeFavoritePerformer(collectorId: Int, performerId: Int) {
         try {
-            viewModelScope.launch(Dispatchers.Default){
+            viewModelScope.launch(Dispatchers.Default + coroutineExceptionHandler){
                 withContext(Dispatchers.IO){
                     val favoriteJson= JSONObject()
                     var data = performesRepository.removeFavoritePerformer(favoriteJson, collectorId, performerId)
@@ -141,6 +141,10 @@ class PerformerViewModel(application: Application) :  AndroidViewModel(applicati
         catch (e:Exception){
             _eventNetworkError.value = true
         }
+    }
+
+    private val coroutineExceptionHandler = CoroutineExceptionHandler{ _, throwable ->
+        throwable.printStackTrace()
     }
 
     fun onNetworkErrorShown() {
