@@ -1,6 +1,10 @@
 package com.example.appmoviles
 
+import android.graphics.Point
+import android.graphics.Rect
+import android.os.SystemClock
 import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -187,7 +191,6 @@ class ExampleInstrumentedTest {
         )
 
     }
-
 
     @Test
     fun addTrackToAlbumFailRequiredField() {
@@ -397,6 +400,92 @@ class ExampleInstrumentedTest {
             .perform(RecyclerViewActions.actionOnItemAtPosition<ViewHolder>(0, click()))
     }
 
+    @Test
+    fun addFavPerformer() {
+
+        val userBtn: ViewInteraction =
+            onView(
+                allOf(
+                    withId(R.id.button_coleccionista),
+                    withText(R.string.label_button_coleccionista),
+                    isDisplayed()
+                )
+            )
+        userBtn.perform(click())
+
+        onView(withId(R.id.drawerLayoutCollector))
+            .check(matches(isClosed(Gravity.LEFT))) // Left Drawer should be closed.
+            .perform(DrawerActions.open()); // Open Drawer
+
+        onView(withId(R.id.fav_performers)).perform(click());
+
+        TimeUnit.SECONDS.sleep(2L)
+        onView(withId(R.id.fragments_rv))
+            .perform(
+                RecyclerViewActions.actionOnItemAtPosition<ViewHolder>(
+                    0,
+                    object : ViewAction {
+                        override fun getConstraints(): Matcher<View>? {
+                            return null
+                        }
+
+                        override fun getDescription(): String {
+                            return "Click on specific button"
+                        }
+
+                        override fun perform(uiController: UiController, view: View) {
+                            val tv = view.findViewById<TextView>(R.id.performer_name)
+                            if (tv != null) //get focus so drawables are visible
+                            {
+                                val drawables = tv.compoundDrawables
+                                val tvLocation = Rect()
+                                tv.getHitRect(tvLocation)
+                                val tvBounds: Array<Point?> = arrayOfNulls<Point>(4) //find textview bound locations
+                                tvBounds[0] = Point(tvLocation.left, tvLocation.centerY())
+                                tvBounds[1] = Point(tvLocation.centerX(), tvLocation.top)
+                                tvBounds[2] = Point(tvLocation.right, tvLocation.centerY())
+                                tvBounds[3] = Point(tvLocation.centerX(), tvLocation.bottom)
+                                for (location in 0..3) if (drawables[location] != null) {
+                                    val bounds: Rect = drawables[location]!!.bounds
+                                    tvBounds[location]?.offset(
+                                        bounds.width() / 2,
+                                        bounds.height() / 2
+                                    ) //get drawable click location for left, top, right, bottom
+                                    if (tv.dispatchTouchEvent(
+                                            tvBounds[location]?.x?.let {
+                                                tvBounds[location]?.y?.let { it1 ->
+                                                    MotionEvent.obtain(
+                                                        SystemClock.uptimeMillis(),
+                                                        SystemClock.uptimeMillis(),
+                                                        MotionEvent.ACTION_DOWN,
+                                                        it.toFloat(),
+                                                        it1.toFloat(),
+                                                        0
+                                                    )
+                                                }
+                                            }
+                                        )
+                                    ) tv.dispatchTouchEvent(
+                                        tvBounds[location]?.let {
+                                            tvBounds[location]?.let { it1 ->
+                                                MotionEvent.obtain(
+                                                    SystemClock.uptimeMillis(),
+                                                    SystemClock.uptimeMillis(),
+                                                    MotionEvent.ACTION_UP,
+                                                    it.x.toFloat(),
+                                                    it1.y.toFloat(),
+                                                    0
+                                                )
+                                            }
+                                        }
+                                    )
+                                }
+                            }
+                        }
+
+                    })
+            )
+    }
 
 
     private fun forceTypeText(text: String): ViewAction {
@@ -415,5 +504,5 @@ class ExampleInstrumentedTest {
             }
         }
     }
-
 }
+
