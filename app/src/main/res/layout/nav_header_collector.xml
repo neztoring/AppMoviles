@@ -36,7 +36,8 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="47dp"
             android:layout_toStartOf="@+id/textView4"
-            app:srcCompat="@drawable/music_collector" />
+            app:srcCompat="@drawable/music_collector"
+            android:contentDescription="@string/cd_image_collector"/>
 
     </RelativeLayout>
 

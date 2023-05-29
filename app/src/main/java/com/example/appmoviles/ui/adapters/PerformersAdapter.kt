@@ -1,7 +1,13 @@
 package com.example.appmoviles.ui.adapters
 
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View.OnTouchListener
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -11,11 +17,24 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.appmoviles.R
 import com.example.appmoviles.databinding.PerformerItemBinding
 import com.example.appmoviles.models.Performer
-import com.squareup.picasso.Picasso
+import com.example.appmoviles.ui.performer.PerformerDetailActivity
 
-class PerformersAdapter : RecyclerView.Adapter<PerformersAdapter.PerformerViewHolder>(){
 
-    var performers :List<Performer> = emptyList()
+class PerformersAdapter(
+    private val isFavoriteView: Boolean,
+    private val addToFavorites: (performerId: Int) -> Unit,
+    private val removeFavoritePerformer: (performerId: Int) -> Unit
+) :
+    RecyclerView.Adapter<PerformersAdapter.PerformerViewHolder>() {
+
+
+    var performers: List<Performer> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
+    var favoritePerformers: List<Performer> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -26,20 +45,73 @@ class PerformersAdapter : RecyclerView.Adapter<PerformersAdapter.PerformerViewHo
             LayoutInflater.from(parent.context),
             PerformerViewHolder.LAYOUT,
             parent,
-            false)
+            false
+        )
         return PerformerViewHolder(withDataBinding)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: PerformerViewHolder, position: Int) {
         holder.viewDataBinding.also {
             it.performer = performers[position]
             Glide.with(holder.itemView)
                 .load(performers[position].image).apply(
                     RequestOptions()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL))
+                        .placeholder(R.drawable.loading_animation)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .error(
+                            R.drawable.ic_broken_image
+                        )
+                )
                 .into(holder.viewDataBinding.performerImage)
+        }
+        holder.viewDataBinding.root.setOnClickListener { v ->
+            val intent = Intent(v.context, PerformerDetailActivity::class.java)
+            intent.putExtra("performerDetail", performers[position])
+            v.context.startActivity(intent)
+        }
+        if (isFavoriteView) {
+            var isSelected = false
+            val favoriteUnselected = R.drawable.baseline_star_border_24
+            val favoriteSelected = R.drawable.baseline_star_24
+            var icon = favoriteUnselected
+            val found =
+                favoritePerformers.firstOrNull { it.performerId == holder.viewDataBinding.performer?.performerId } != null
+            if (found) {
+                icon = favoriteSelected
+                isSelected = true
             }
-        holder.viewDataBinding.root.setOnClickListener {
+            holder.viewDataBinding.performerName.setOnTouchListener(OnTouchListener { v, event ->
+                val DRAWABLE_RIGHT = 2
+                if (event.action == MotionEvent.ACTION_DOWN) {
+                    if (event.rawX >= holder.viewDataBinding.performerName.right - holder.viewDataBinding.performerName.compoundDrawables[DRAWABLE_RIGHT].bounds.width()
+                    ) {
+                        if (!isSelected) {
+                            holder.viewDataBinding.performer?.performerId?.let { addToFavorites(it) }
+                        } else {
+                            holder.viewDataBinding.performer?.performerId?.let { removeFavoritePerformer(it) }
+                        }
+                        isSelected = !isSelected
+                        icon = if (isSelected) favoriteSelected else favoriteUnselected
+                        holder.viewDataBinding.performerName.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                            0,
+                            0,
+                            icon,
+                            0
+                        )
+
+                        return@OnTouchListener true
+                    }
+                }
+                false
+            })
+
+            holder.viewDataBinding.performerName.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,
+                0,
+                icon,
+                0
+            )
         }
     }
 

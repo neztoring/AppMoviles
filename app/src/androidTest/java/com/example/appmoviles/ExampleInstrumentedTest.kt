@@ -1,6 +1,10 @@
 package com.example.appmoviles
 
+import android.graphics.Point
+import android.graphics.Rect
+import android.os.SystemClock
 import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -9,16 +13,15 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.ViewInteraction
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.DrawerActions
 import androidx.test.espresso.contrib.DrawerMatchers.isClosed
 import androidx.test.espresso.contrib.NavigationViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.matcher.RootMatcher
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.ViewInteraction
-import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.matcher.RootMatchers
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -28,7 +31,6 @@ import com.example.appmoviles.ui.MainActivity
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.equalTo
-import org.hamcrest.Matchers.allOf
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
@@ -36,15 +38,6 @@ import org.junit.runner.RunWith
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
-import android.view.Gravity
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.DrawerActions
-import androidx.test.espresso.contrib.DrawerMatchers.isClosed
-import androidx.test.espresso.contrib.NavigationViewActions
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
 
 
 /**
@@ -120,6 +113,25 @@ class ExampleInstrumentedTest {
     }
 
     @Test
+    fun navigatePerformerDetail() {
+
+        val userBtn: ViewInteraction =
+            onView(allOf(withId(R.id.button_usuario), withText("Soy un Usuario"), isDisplayed()))
+        userBtn.perform(click())
+
+        onView(withId(R.id.drawerLayoutUser))
+            .check(matches(isClosed(Gravity.LEFT))) // Left Drawer should be closed.
+            .perform(DrawerActions.open()); // Open Drawer
+
+        onView(withId(R.id.navViewUser))
+            .perform(NavigationViewActions.navigateTo(R.id.performer));
+
+        TimeUnit.SECONDS.sleep(2L)
+        onView(withId(R.id.fragments_rv))
+            .perform(RecyclerViewActions.actionOnItemAtPosition<ViewHolder>(0, click()))
+    }
+
+    @Test
     fun navigateCollectorMenu() {
 
         val userBtn: ViewInteraction =
@@ -155,13 +167,7 @@ class ExampleInstrumentedTest {
     fun changeProfileCollectorMenu() {
 
         val userBtn: ViewInteraction =
-            onView(
-                allOf(
-                    withId(R.id.button_coleccionista),
-                    withText(R.string.label_button_coleccionista),
-                    isDisplayed()
-                )
-            )
+            onView(allOf(withId(R.id.button_coleccionista), withText(R.string.label_button_coleccionista), isDisplayed()))
         userBtn.perform(click())
 
         onView(withId(R.id.drawerLayoutCollector))
@@ -179,7 +185,6 @@ class ExampleInstrumentedTest {
         )
 
     }
-
 
     @Test
     fun addTrackToAlbumFailRequiredField() {
@@ -208,6 +213,8 @@ class ExampleInstrumentedTest {
 
         onView(withId(R.id.autoCompleteTextViewSeconds)).perform(click());
         onData(equalTo("25")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+
+        onView(ViewMatchers.isRoot()).perform(ViewActions.closeSoftKeyboard())
 
         onView(withId(R.id.button_save_track)).perform(click());
         TimeUnit.SECONDS.sleep(2L)
@@ -255,6 +262,8 @@ class ExampleInstrumentedTest {
         onView(withId(R.id.autoCompleteTextViewAlbum)).perform(click());
         onData(equalTo("Album Nuevo")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
 
+        onView(ViewMatchers.isRoot()).perform(ViewActions.closeSoftKeyboard())
+        TimeUnit.SECONDS.sleep(1L)
         onView(withId(R.id.button_save_track)).perform(click());
         TimeUnit.SECONDS.sleep(5L)
 
@@ -294,6 +303,7 @@ class ExampleInstrumentedTest {
                     isDisplayed()
                 )
             )
+        onView(ViewMatchers.isRoot()).perform(ViewActions.closeSoftKeyboard())
         saveAlbumBtn.perform(click())
         TimeUnit.SECONDS.sleep(1L)
         onView(allOf(withId(R.id.editTextAlbumName), withText(""), isDisplayed()))
@@ -334,6 +344,144 @@ class ExampleInstrumentedTest {
         onView(withId(R.id.editTextAlbumDescription)).check(matches(hasErrorText("El campo debe diligenciado y cumplir con las condiciones")));
     }
 
+    @Test
+    fun addPerformerToAlbumOK() {
+
+        val userBtn: ViewInteraction =
+            onView(
+                allOf(
+                    withId(R.id.button_coleccionista),
+                    withText(R.string.label_button_coleccionista),
+                    isDisplayed()
+                )
+            )
+        userBtn.perform(click())
+
+        onView(withId(R.id.drawerLayoutCollector))
+            .check(matches(isClosed(Gravity.LEFT))) // Left Drawer should be closed.
+            .perform(DrawerActions.open()); // Open Drawer
+
+        onView(withId(R.id.associate_performer_album)).perform(click());
+        TimeUnit.SECONDS.sleep(1L)
+
+        onView(withId(R.id.autoCompleteTextViewPerformer)).perform(click());
+        onData(equalTo("Queen")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+
+        onView(withId(R.id.autoCompleteTextViewAlbum)).perform(click());
+        onData(equalTo("A Night at the Opera")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+
+        onView(withId(R.id.button_save_performer_to_album)).perform(click());
+        TimeUnit.SECONDS.sleep(5L)
+
+    }
+
+
+    @Test
+    fun navigateDetailListPerformers() {
+        val userBtn: ViewInteraction =
+            onView(allOf(withId(R.id.button_usuario), withText("Soy un Usuario"), isDisplayed()))
+        userBtn.perform(click())
+
+        onView(withId(R.id.drawerLayoutUser))
+            .check(matches(isClosed(Gravity.LEFT))) // Left Drawer should be closed.
+            .perform(DrawerActions.open()); // Open Drawer
+
+        onView(withId(R.id.navViewUser))
+            .perform(NavigationViewActions.navigateTo(R.id.performer));
+
+        TimeUnit.SECONDS.sleep(2L)
+        onView(withId(R.id.fragments_rv))
+            .perform(RecyclerViewActions.actionOnItemAtPosition<ViewHolder>(0, click()))
+    }
+
+    @Test
+    fun addFavPerformer() {
+
+        val userBtn: ViewInteraction =
+            onView(
+                allOf(
+                    withId(R.id.button_coleccionista),
+                    withText(R.string.label_button_coleccionista),
+                    isDisplayed()
+                )
+            )
+        userBtn.perform(click())
+
+        onView(withId(R.id.drawerLayoutCollector))
+            .check(matches(isClosed(Gravity.LEFT))) // Left Drawer should be closed.
+            .perform(DrawerActions.open()); // Open Drawer
+
+        onView(withId(R.id.fav_performers)).perform(click());
+
+        TimeUnit.SECONDS.sleep(2L)
+        onView(withId(R.id.fragments_rv))
+            .perform(
+                RecyclerViewActions.actionOnItemAtPosition<ViewHolder>(
+                    0,
+                    object : ViewAction {
+                        override fun getConstraints(): Matcher<View>? {
+                            return null
+                        }
+
+                        override fun getDescription(): String {
+                            return "Click on specific button"
+                        }
+
+                        override fun perform(uiController: UiController, view: View) {
+                            val tv = view.findViewById<TextView>(R.id.performer_name)
+                            if (tv != null) //get focus so drawables are visible
+                            {
+                                val drawables = tv.compoundDrawables
+                                val tvLocation = Rect()
+                                tv.getHitRect(tvLocation)
+                                val tvBounds: Array<Point?> = arrayOfNulls<Point>(4) //find textview bound locations
+                                tvBounds[0] = Point(tvLocation.left, tvLocation.centerY())
+                                tvBounds[1] = Point(tvLocation.centerX(), tvLocation.top)
+                                tvBounds[2] = Point(tvLocation.right, tvLocation.centerY())
+                                tvBounds[3] = Point(tvLocation.centerX(), tvLocation.bottom)
+                                for (location in 0..3) if (drawables[location] != null) {
+                                    val bounds: Rect = drawables[location]!!.bounds
+                                    tvBounds[location]?.offset(
+                                        bounds.width() / 2,
+                                        bounds.height() / 2
+                                    ) //get drawable click location for left, top, right, bottom
+                                    if (tv.dispatchTouchEvent(
+                                            tvBounds[location]?.x?.let {
+                                                tvBounds[location]?.y?.let { it1 ->
+                                                    MotionEvent.obtain(
+                                                        SystemClock.uptimeMillis(),
+                                                        SystemClock.uptimeMillis(),
+                                                        MotionEvent.ACTION_DOWN,
+                                                        it.toFloat(),
+                                                        it1.toFloat(),
+                                                        0
+                                                    )
+                                                }
+                                            }
+                                        )
+                                    ) tv.dispatchTouchEvent(
+                                        tvBounds[location]?.let {
+                                            tvBounds[location]?.let { it1 ->
+                                                MotionEvent.obtain(
+                                                    SystemClock.uptimeMillis(),
+                                                    SystemClock.uptimeMillis(),
+                                                    MotionEvent.ACTION_UP,
+                                                    it.x.toFloat(),
+                                                    it1.y.toFloat(),
+                                                    0
+                                                )
+                                            }
+                                        }
+                                    )
+                                }
+                            }
+                        }
+
+                    })
+            )
+    }
+
+
     private fun forceTypeText(text: String): ViewAction {
         return object : ViewAction {
             override fun getDescription(): String {
@@ -350,5 +498,5 @@ class ExampleInstrumentedTest {
             }
         }
     }
-
 }
+

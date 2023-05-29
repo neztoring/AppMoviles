@@ -14,6 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppMoviles"
         tools:targetApi="31">
+
+        <activity
+            android:name=".ui.performer.PerformerToAlbumActivity"
+            android:exported="false"
+            android:label="@string/title_activity_performer_to_album"
+            android:theme="@style/Theme.AppMoviles" />
         <activity
             android:name=".ui.album.TrackToAlbumActivity"
             android:exported="false"
@@ -27,15 +33,21 @@
             android:theme="@style/Theme.AppMoviles" />
         <activity
             android:name=".ui.album.AlbumDetailActivity"
-            android:label="Detalle de albúm"
             android:exported="false"
+            android:label="Detalle de albúm"
             android:parentActivityName=".ui.album.AlbumActivity"
-            android:theme="@style/Theme.AppMoviles"/>
+            android:theme="@style/Theme.AppMoviles" />
         <activity
             android:name=".ui.performer.PerformerActivity"
             android:exported="false"
             android:label="@string/artistas"
             android:parentActivityName=".ui.MenuUsuarioActivity"
+            android:theme="@style/Theme.AppMoviles" />
+        <activity
+            android:name=".ui.performer.PerformerDetailActivity"
+            android:exported="false"
+            android:label="Detalle de artista"
+            android:parentActivityName=".ui.performer.PerformerDetailActivity"
             android:theme="@style/Theme.AppMoviles" />
         <activity
             android:name=".ui.MenuColeccionistaActivity"

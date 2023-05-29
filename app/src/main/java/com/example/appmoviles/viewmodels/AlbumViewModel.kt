@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.appmoviles.models.Album
 import com.example.appmoviles.models.Track
-import com.example.appmoviles.network.NetworkServiceAdapter
 import com.example.appmoviles.repositories.AlbumRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,8 +24,6 @@ class AlbumViewModel(application: Application): AndroidViewModel(application) {
 
     val albums: LiveData<List<Album>>
         get() = _albums
-
-
 
     private val _track = MutableLiveData<Track>()
 

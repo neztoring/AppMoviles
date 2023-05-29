@@ -8,21 +8,32 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.appmoviles.models.Performer
-import com.example.appmoviles.network.NetworkServiceAdapter
-import com.example.appmoviles.repositories.AlbumRepository
 import com.example.appmoviles.repositories.PerformerRepository
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONArray
+import org.json.JSONObject
 
 class PerformerViewModel(application: Application) :  AndroidViewModel(application) {
 
 
     private val performesRepository = PerformerRepository(application)
     private val _performers = MutableLiveData<List<Performer>>()
+    private val _favoritePerformers = MutableLiveData<List<Performer>>()
 
     val performers: LiveData<List<Performer>>
         get() = _performers
+
+    val favoritePerformers: LiveData<List<Performer>>
+        get() = _favoritePerformers
+
+    val performer: LiveData<Performer>
+        get() = _performer
+
+    private var albumJson = JSONObject()
+    private val _performer = MutableLiveData<Performer>()
 
     private var _eventNetworkError = MutableLiveData<Boolean>(false)
 
@@ -34,8 +45,14 @@ class PerformerViewModel(application: Application) :  AndroidViewModel(applicati
     val isNetworkErrorShown: LiveData<Boolean>
         get() = _isNetworkErrorShown
 
+    private val _performersAdded = MutableLiveData<Any>()
+
+    val performersAdded: LiveData<Any>
+        get() = _performersAdded
+
     init {
         refreshDataFromNetwork()
+        getFavoritePerformers()
     }
 
     private fun refreshDataFromNetwork() {
@@ -53,6 +70,81 @@ class PerformerViewModel(application: Application) :  AndroidViewModel(applicati
             _eventNetworkError.value = true
         }
 
+    }
+
+    private fun getFavoritePerformers() {
+        try {
+            viewModelScope.launch(Dispatchers.Default){
+                withContext(Dispatchers.IO){
+                    var data = performesRepository.getPerformersByCollector(100)
+                    _favoritePerformers.postValue(data)
+                }
+                _eventNetworkError.postValue(false)
+                _isNetworkErrorShown.postValue(false)
+            }
+        }
+        catch (e:Exception){
+            _eventNetworkError.value = true
+        }
+
+    }
+
+    public fun addTrackToAlbum(albumId:Int, performerId: Int) {
+        try {
+            viewModelScope.launch(Dispatchers.Default){
+                withContext(Dispatchers.IO){
+                    albumJson = JSONObject()
+                    albumJson.put("id",albumId)
+                    var arrayAlbum = JSONArray()
+                    arrayAlbum.put(albumJson)
+                    var data = performesRepository.albumToPerformer(arrayAlbum,performerId)
+                    _performer.postValue(data)
+                }
+                _eventNetworkError.postValue(false)
+                _isNetworkErrorShown.postValue(false)
+            }
+        }
+        catch (e:Exception){
+            _eventNetworkError.value = true
+        }
+    }
+
+    fun addFavoritePerformer(collectorId: Int, performerId: Int) {
+        try {
+            viewModelScope.launch(Dispatchers.Default){
+                withContext(Dispatchers.IO){
+                    val favoriteJson= JSONObject()
+                    var data = performesRepository.saveFavoritePerformer(favoriteJson, collectorId, performerId)
+                    _performersAdded.postValue(data)
+                }
+                _eventNetworkError.postValue(false)
+                _isNetworkErrorShown.postValue(false)
+            }
+        }
+        catch (e:Exception){
+            _eventNetworkError.value = true
+        }
+    }
+
+    fun removeFavoritePerformer(collectorId: Int, performerId: Int) {
+        try {
+            viewModelScope.launch(Dispatchers.Default + coroutineExceptionHandler){
+                withContext(Dispatchers.IO){
+                    val favoriteJson= JSONObject()
+                    var data = performesRepository.removeFavoritePerformer(favoriteJson, collectorId, performerId)
+                    _performersAdded.postValue(data)
+                }
+                _eventNetworkError.postValue(false)
+                _isNetworkErrorShown.postValue(false)
+            }
+        }
+        catch (e:Exception){
+            _eventNetworkError.value = true
+        }
+    }
+
+    private val coroutineExceptionHandler = CoroutineExceptionHandler{ _, throwable ->
+        throwable.printStackTrace()
     }
 
     fun onNetworkErrorShown() {
