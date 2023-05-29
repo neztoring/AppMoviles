@@ -167,13 +167,7 @@ class ExampleInstrumentedTest {
     fun changeProfileCollectorMenu() {
 
         val userBtn: ViewInteraction =
-            onView(
-                allOf(
-                    withId(R.id.button_coleccionista),
-                    withText(R.string.label_button_coleccionista),
-                    isDisplayed()
-                )
-            )
+            onView(allOf(withId(R.id.button_coleccionista), withText(R.string.label_button_coleccionista), isDisplayed()))
         userBtn.perform(click())
 
         onView(withId(R.id.drawerLayoutCollector))
